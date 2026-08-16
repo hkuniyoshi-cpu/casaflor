@@ -1,0 +1,36 @@
+# ============================================================
+# robots.txt — クローラー誘導
+# client-site-all-in-one 用ベース
+# ============================================================
+# 使い方:
+#  1. https://casaflor.search-mania.net 部分を実URLに置換
+#  2. AI学習許可方針が NG なら GPTBot / ClaudeBot / PerplexityBot を Disallow に変更
+# ============================================================
+
+User-agent: *
+Allow: /
+
+# AI クローラー（学習・検索インデックス用）— デフォルトは許可
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# サイトマップ
+Sitemap: https://casaflor.search-mania.net/sitemap.xml

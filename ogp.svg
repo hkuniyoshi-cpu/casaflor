@@ -1,0 +1,76 @@
+<!--
+==============================================================
+ogp.svg 雛形 — 1200×630px OGP画像
+==============================================================
+プレースホルダーを置換してから保存：
+  #2a1810       背景グラデ開始色   例: #0e0e0e
+  #3d2418         背景グラデ終了色   例: #1e1a16
+  #f0d090    アクセント明色     例: #f0d080
+  #c9a84c          アクセント基準色   例: #c9a84c
+  #a07830     アクセント暗色     例: #a07830
+  #f5eadb         テキスト淡色       例: #e8d9b8
+  #a89680         サブ淡色           例: #8a7a60
+  CASA FLOR · OKINAWA NAGO       上部キャプション   例: PRIVATE SPA · NAHA OMOKACHO
+  Casa Flor      ブランド英字       例: RAKSAA
+  株式会社カーサフロール      ブランド日本語     例: タイ古式　ラクサー
+  内 外 装 仕 上 げ の プ ロ 集 団       中段タグライン     例: 深 夜 2 5 時 ま で
+  casaflor.search-mania.net        ドメイン           例: thai-raksaa.search-mania.net
+
+業種に応じた色サンプル：
+  カフェ系  : #f5efe5 / #e8d8b8 / #c9a84c / #b89b3f / #8a7530 / #3a342a / #6a635a
+  和食系    : #1a0e08 / #2a1810 / #d4a14a / #c9a84c / #8a6020 / #f0e0c0 / #8a7a60
+  美容系    : #1a1a1a / #2a2a2a / #d4af37 / #c9a84c / #a08020 / #f5f0e8 / #8a7a60
+  花屋系    : #f5f0e8 / #e8e0d0 / #8a9a5b / #6e7d4a / #4a5a30 / #2a3520 / #6a635a
+  歯科系    : #f8fafc / #e0eef5 / #4a90e2 / #357abd / #2868a0 / #1a2a3a / #6a7580
+==============================================================
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a1810"/>
+      <stop offset="100%" style="stop-color:#3d2418"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#c9a84c"/>
+      <stop offset="50%" style="stop-color:#f0d090"/>
+      <stop offset="100%" style="stop-color:#c9a84c"/>
+    </linearGradient>
+    <linearGradient id="goldV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0d090"/>
+      <stop offset="100%" style="stop-color:#a07830"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <rect x="72"   y="72"    width="2"    height="486" fill="url(#goldV)" opacity="0.6"/>
+  <rect x="1126" y="72"    width="2"    height="486" fill="url(#goldV)" opacity="0.6"/>
+  <rect x="72"   y="72"    width="1056" height="1.5" fill="url(#gold)"  opacity="0.5"/>
+  <rect x="72"   y="556.5" width="1056" height="1.5" fill="url(#gold)"  opacity="0.5"/>
+
+  <rect x="72"   y="72"   width="32" height="2"  fill="#c9a84c"/>
+  <rect x="72"   y="72"   width="2"  height="32" fill="#c9a84c"/>
+  <rect x="1096" y="72"   width="32" height="2"  fill="#c9a84c"/>
+  <rect x="1126" y="72"   width="2"  height="32" fill="#c9a84c"/>
+  <rect x="72"   y="556"  width="32" height="2"  fill="#c9a84c"/>
+  <rect x="72"   y="526"  width="2"  height="32" fill="#c9a84c"/>
+  <rect x="1096" y="556"  width="32" height="2"  fill="#c9a84c"/>
+  <rect x="1126" y="526"  width="2"  height="32" fill="#c9a84c"/>
+
+  <rect x="540" y="148" width="120" height="1" fill="url(#gold)" opacity="0.7"/>
+
+  <text x="600" y="188" font-family="Georgia, serif" font-size="14" fill="#c9a84c" text-anchor="middle" letter-spacing="8" opacity="0.9">CASA FLOR · OKINAWA NAGO</text>
+
+  <text x="600" y="316" font-family="Georgia, 'Times New Roman', serif" font-size="112" fill="url(#gold)" text-anchor="middle" letter-spacing="12" font-weight="400">Casa Flor</text>
+
+  <text x="600" y="378" font-family="'Hiragino Mincho ProN', 'Yu Mincho', serif" font-size="26" fill="#f5eadb" text-anchor="middle" letter-spacing="10" opacity="0.9">株式会社カーサフロール</text>
+
+  <rect x="420" y="410" width="360" height="1" fill="url(#gold)" opacity="0.5"/>
+
+  <text x="600" y="448" font-family="Georgia, serif" font-size="16" fill="#c9a84c" text-anchor="middle" letter-spacing="4" opacity="0.85">内 外 装 仕 上 げ の プ ロ 集 団</text>
+
+  <text x="600" y="510" font-family="Georgia, serif" font-size="15" fill="#a89680" text-anchor="middle" letter-spacing="3">casaflor.search-mania.net</text>
+
+  <polygon points="600,130 606,136 600,142 594,136" fill="#c9a84c" opacity="0.7"/>
+  <polygon points="600,488 604,492 600,496 596,492" fill="#c9a84c" opacity="0.5"/>
+</svg>

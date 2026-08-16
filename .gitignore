@@ -1,0 +1,13 @@
+# GAS ソースは秘匿（PLACES_API_KEY 保護）
+_gas-refs/
+gas/
+*.gs
+scripts/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
