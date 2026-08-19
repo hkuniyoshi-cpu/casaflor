@@ -860,7 +860,7 @@ function applyAll(data) {
 
 /* ═══ CMS ロード（キャッシュ→API） ═══ */
 async function loadCMS() {
-  if (!GAS_URL || GAS_URL.includes('https://script.google.com/macros/s/AKfycbxn5fJlnt9smKFwgYlp25Zohq4k815Pkjl_edbAki8nDMOiFC1rXLbH4Etklg9tn9lrMg/exec')) {
+  if (!GAS_URL || GAS_URL.indexOf('script.google.com') === -1) {
     _hideLoader();
     return;
   }
