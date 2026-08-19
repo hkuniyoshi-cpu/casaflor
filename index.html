@@ -535,7 +535,7 @@
 
 <script>
 /* ═══ CMS 定数 ═══ */
-const GAS_URL = '__GAS_URL__';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxn5fJlnt9smKFwgYlp25Zohq4k815Pkjl_edbAki8nDMOiFC1rXLbH4Etklg9tn9lrMg/exec';
 const CMS_CACHE_KEY = 'casaflor_cms_v1';
 const CMS_CACHE_TTL = 5 * 60 * 1000;
 
@@ -837,7 +837,7 @@ function applyAll(data) {
 
 /* ═══ CMS ロード（キャッシュ→API） ═══ */
 async function loadCMS() {
-  if (!GAS_URL || GAS_URL.includes('__GAS_URL__')) {
+  if (!GAS_URL || GAS_URL.includes('https://script.google.com/macros/s/AKfycbxn5fJlnt9smKFwgYlp25Zohq4k815Pkjl_edbAki8nDMOiFC1rXLbH4Etklg9tn9lrMg/exec')) {
     _hideLoader();
     return;
   }
