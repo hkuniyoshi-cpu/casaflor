@@ -179,14 +179,19 @@ b { font-weight: 600; }
   100% { transform: translate3d(-25px, 110vh, 0) rotate(360deg); opacity: 0; }
 }
 
-/* ═══ セクション区切り（大きな流線＋菱形モチーフ） — 独立レイヤー ═══ */
+/* ═══ セクション区切り（波状の色境界＋菱形モチーフ） — 独立レイヤー ═══ */
 .section, .cta { position: relative; }
-.section-wave { position: absolute; top: -70px; left: 0; right: 0; height: 140px; pointer-events: none; z-index: 4; }
+/* セクションの実背景色を CSS 変数として宣言（波の塗り色に使用） */
+.about, .story, .positioning, .features, .blog, .sns { --sec-bg: #FDF8F3; }
+.message, .reviews, .access, .faq { --sec-bg: #F5EADB; }
+.service, .cta { --sec-bg: #2B2622; }
+/* Wave 要素本体 */
+.section-wave { position: absolute; top: -70px; left: 0; right: 0; height: 140px; pointer-events: none; z-index: 4; overflow: visible; }
 .section-wave svg { width: 100%; height: 100%; display: block; overflow: visible; }
-/* JS が section 冒頭に自動注入する。既存セクションには絶対配置で挿入 */
+.section-wave .wave-fill { fill: var(--sec-bg); }
 
 /* ═══ Section photo background（各セクションに写真をサブトルに敷く共通スタイル） ═══ */
-.section--photo-bg { position: relative; overflow: hidden; }
+.section--photo-bg { position: relative; overflow: visible; }
 .section--photo-bg::before {
   content: '';
   position: absolute; inset: 0;

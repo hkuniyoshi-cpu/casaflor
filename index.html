@@ -983,63 +983,70 @@ async function loadCMS() {
 }
 loadCMS();
 
-/* ═══ セクション区切り波を各セクション冒頭にinject ═══ */
+/* ═══ セクション区切り波（色付き波形＋装飾ライン）を各セクション冒頭にinject ═══ */
 (function() {
-  // 波SVG生成（各セクション用に個別に）
-  function makeWaveSVG(variant) {
+  function makeWaveSVG(variant, seed) {
     const isDark = variant === 'dark';
     const gold = isDark ? '#f0d090' : '#C9A84C';
     const goldSoft = isDark ? '#f5dfa5' : '#a07830';
     const tera = isDark ? '#e58860' : '#C85A33';
+    // シードで波形の位相をずらして、区切りごとに違う波にする
+    const p1 = 60 + (seed % 3) * 6;
+    const p2 = 80 + ((seed + 1) % 3) * 6;
+    const g1 = 'wg1_' + seed;
+    const g2 = 'wg2_' + seed;
+    // wave-fill パス：セクション色で上端を波形にする（下は完全塗り）
+    const fillPath = 'M0,140 L0,' + p1 + ' C240,' + (p1-24) + ' 480,' + (p1+30) + ' 720,' + p1 + ' C960,' + (p1-24) + ' 1200,' + (p1+30) + ' 1440,' + p1 + ' L1440,140 Z';
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 140" preserveAspectRatio="none">' +
       '<defs>' +
-        '<linearGradient id="wg1' + variant + '" x1="0" y1="0" x2="1" y2="0">' +
+        '<linearGradient id="' + g1 + '" x1="0" y1="0" x2="1" y2="0">' +
           '<stop offset="0" stop-color="' + goldSoft + '" stop-opacity="0"/>' +
           '<stop offset="0.3" stop-color="' + gold + '" stop-opacity="0.55"/>' +
           '<stop offset="0.5" stop-color="' + gold + '" stop-opacity="0.95"/>' +
           '<stop offset="0.7" stop-color="' + gold + '" stop-opacity="0.55"/>' +
           '<stop offset="1" stop-color="' + goldSoft + '" stop-opacity="0"/>' +
         '</linearGradient>' +
-        '<linearGradient id="wg2' + variant + '" x1="0" y1="0" x2="1" y2="0">' +
+        '<linearGradient id="' + g2 + '" x1="0" y1="0" x2="1" y2="0">' +
           '<stop offset="0" stop-color="' + tera + '" stop-opacity="0"/>' +
           '<stop offset="0.5" stop-color="' + tera + '" stop-opacity="0.4"/>' +
           '<stop offset="1" stop-color="' + tera + '" stop-opacity="0"/>' +
         '</linearGradient>' +
       '</defs>' +
-      '<path d="M0,72 C240,42 480,102 720,72 C960,42 1200,102 1440,72" fill="none" stroke="url(#wg1' + variant + ')" stroke-width="1.4"/>' +
-      '<path d="M0,86 C240,60 480,116 720,86 C960,60 1200,116 1440,86" fill="none" stroke="url(#wg2' + variant + ')" stroke-width="1.0" opacity="0.7"/>' +
-      '<path d="M0,58 C240,28 480,90 720,58 C960,28 1200,90 1440,58" fill="none" stroke="url(#wg1' + variant + ')" stroke-width="0.7" opacity="0.45"/>' +
-      '<g transform="translate(360,72)">' +
+      // ★ 色付き波：セクション本来の bg 色で上端を波形にする（境界そのものを波状に）
+      '<path class="wave-fill" d="' + fillPath + '"/>' +
+      // 装飾金ライン：色付き波の際に沿って流れる
+      '<path d="M0,' + p1 + ' C240,' + (p1-24) + ' 480,' + (p1+30) + ' 720,' + p1 + ' C960,' + (p1-24) + ' 1200,' + (p1+30) + ' 1440,' + p1 + '" fill="none" stroke="url(#' + g1 + ')" stroke-width="1.5"/>' +
+      '<path d="M0,' + (p1+14) + ' C240,' + (p1-8) + ' 480,' + (p1+46) + ' 720,' + (p1+14) + ' C960,' + (p1-8) + ' 1200,' + (p1+46) + ' 1440,' + (p1+14) + '" fill="none" stroke="url(#' + g2 + ')" stroke-width="1.0" opacity="0.6"/>' +
+      // 装飾菱形
+      '<g transform="translate(360,' + p1 + ')">' +
         '<path d="M-14 0 L0 -8 L14 0 L0 8 Z" fill="none" stroke="' + gold + '" stroke-width="1" opacity="0.75"/>' +
         '<circle cx="0" cy="0" r="2.6" fill="' + tera + '" opacity="0.85"/>' +
       '</g>' +
-      '<g transform="translate(720,72)">' +
+      '<g transform="translate(720,' + p1 + ')">' +
         '<path d="M-22 0 L0 -12 L22 0 L0 12 Z" fill="none" stroke="' + gold + '" stroke-width="1.2"/>' +
         '<path d="M-11 0 L0 -6 L11 0 L0 6 Z" fill="none" stroke="' + gold + '" stroke-width="0.9" opacity="0.85"/>' +
         '<circle cx="0" cy="0" r="3.6" fill="' + tera + '"/>' +
         '<circle cx="-26" cy="0" r="1.7" fill="' + gold + '" opacity="0.7"/>' +
         '<circle cx="26" cy="0" r="1.7" fill="' + gold + '" opacity="0.7"/>' +
       '</g>' +
-      '<g transform="translate(1080,72)">' +
+      '<g transform="translate(1080,' + p1 + ')">' +
         '<path d="M-14 0 L0 -8 L14 0 L0 8 Z" fill="none" stroke="' + gold + '" stroke-width="1" opacity="0.75"/>' +
         '<circle cx="0" cy="0" r="2.6" fill="' + tera + '" opacity="0.85"/>' +
       '</g>' +
     '</svg>';
   }
-  // 各セクション先頭にwaveをinject（最初のhero除く）
   const sections = document.querySelectorAll('.section, .cta');
   sections.forEach(function(sec, idx) {
-    if (idx === 0 && sec.classList.contains('hero')) return;
-    // 先頭sectionは波なし
-    if (idx === 0) return;
-    // ダーク背景の判定（service, cta, footer前など）
-    const bg = getComputedStyle(sec).backgroundColor;
-    const rgb = bg.match(/\d+/g);
-    const isDark = rgb && (Number(rgb[0]) + Number(rgb[1]) + Number(rgb[2])) < 220;
+    if (idx === 0) return;  // 先頭は波なし
+    // セクションのCSS変数 --sec-bg を読み、明暗判定
+    const sbg = getComputedStyle(sec).getPropertyValue('--sec-bg').trim() || '#FDF8F3';
+    const m = sbg.match(/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/);
+    const brightness = m ? (parseInt(m[1],16) + parseInt(m[2],16) + parseInt(m[3],16)) : 240;
+    const isDark = brightness < 300;
     const wave = document.createElement('div');
     wave.className = 'section-wave';
     wave.setAttribute('aria-hidden', 'true');
-    wave.innerHTML = makeWaveSVG(isDark ? 'dark' : 'light');
+    wave.innerHTML = makeWaveSVG(isDark ? 'dark' : 'light', idx);
     sec.insertBefore(wave, sec.firstChild);
   });
 })();
