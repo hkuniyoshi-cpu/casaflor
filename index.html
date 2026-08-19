@@ -400,7 +400,7 @@
           <dt>会社名</dt><dd data-cms="settings.店名">株式会社カーサフロール</dd>
           <dt>代表取締役</dt><dd>町田 弥生</dd>
           <dt>所在地</dt><dd data-cms="settings.住所">〒905-0018<br>沖縄県名護市大中 4-20-28</dd>
-          <dt>営業時間</dt><dd data-cms="settings.営業時間">平日・土 8:30〜17:30<br><small>※ 事前予約で日祝も対応可</small></dd>
+          <dt>営業時間</dt><dd>平日 8:30〜17:30<br>土曜 8:30〜17:30（不定休）<br><small>※ 事前予約で日祝も対応可</small></dd>
           <dt>定休日</dt><dd data-cms="settings.定休日">日曜・祝日</dd>
           <dt>対応エリア</dt><dd>沖縄県内全域</dd>
         </dl>
@@ -499,7 +499,8 @@
       <div class="footer__col">
         <div class="footer__col-title">HOURS</div>
         <div class="footer__col-body">
-          <span data-cms="settings.営業時間">平日・土 8:30〜17:30</span><br>
+          <b>平日</b> 8:30〜17:30<br>
+          <b>土曜</b> 8:30〜17:30（不定休）<br>
           <b>定休日</b> <span data-cms="settings.定休日">日曜・祝日</span>
         </div>
       </div>
@@ -811,7 +812,10 @@ function applyAccess(a) {
     const el = document.getElementById('mapEmbed');
     if (el) {
       const val = String(a.mapEmbed).trim();
-      if (val.toLowerCase().startsWith('<iframe')) {
+      // プレースホルダー <xxx> や空欄はハードコードiframe温存
+      if (!val || /^<[^>]+>$/.test(val) || val === '<Googleマップ埋め込みURL>') {
+        // no-op: keep hardcoded iframe
+      } else if (val.toLowerCase().startsWith('<iframe')) {
         const tmp = document.createElement('div');
         tmp.innerHTML = val;
         const fr = tmp.querySelector('iframe');
