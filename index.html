@@ -684,10 +684,13 @@ function applyFeatures(items) {
 }
 
 function applyReviews(items) {
-  if (!Array.isArray(items) || !items.length) return;
   const grid = document.getElementById('reviewsGrid');
   if (!grid) return;
-  let html = items.map(r =>
+  // 開発用プレースホルダー行（本文空 or 「（」で始まる名前）を除外
+  const valid = Array.isArray(items)
+    ? items.filter(r => r && r.text && !/^[（(]/.test(String(r.name || '')))
+    : [];
+  let html = valid.map(r =>
     `<article class="review">
       <div class="review__stars">${stars(r.stars)}</div>
       <p class="review__body">${esc(r.text || '')}</p>
@@ -697,11 +700,14 @@ function applyReviews(items) {
       </div>
     </article>`
   ).join('');
-  if (items.length < 6) {
+  if (valid.length < 6) {
     const gbpUrl = (window._settings && window._settings.gbpUrl) || '#';
+    const msg = valid.length === 0
+      ? '最初のクチコミを<br>ぜひお寄せください'
+      : '他のクチコミも<br>Googleでご覧いただけます';
     html += `<a class="review review--cta" href="${esc(gbpUrl)}" target="_blank" rel="noopener">
       <div class="review-cta-stars">★ ★ ★ ★ ★</div>
-      <p class="review-cta-msg">他のクチコミも<br>Googleでご覧いただけます</p>
+      <p class="review-cta-msg">${msg}</p>
       <span class="review-cta-link">Googleで見る →</span>
     </a>`;
   }
