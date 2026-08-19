@@ -127,7 +127,7 @@
   <div class="nav__inner">
     <a href="#top" class="nav__logo">
       <span class="nav__logo-en">Casa Flor</span>
-      <span class="nav__logo-jp">株式会社カーサフロール</span>
+      <span class="nav__logo-jp" data-cms="settings.店名">株式会社カーサフロール</span>
     </a>
     <ul class="nav__menu">
       <li><a href="#about">About</a></li>
@@ -397,11 +397,11 @@
     <div class="access__layout">
       <div class="access__info">
         <dl id="accessInfo">
-          <dt>会社名</dt><dd>株式会社カーサフロール（Casa Flor）</dd>
+          <dt>会社名</dt><dd data-cms="settings.店名">株式会社カーサフロール</dd>
           <dt>代表取締役</dt><dd>町田 弥生</dd>
-          <dt>所在地</dt><dd>〒905-0018<br>沖縄県名護市大中 4-20-28</dd>
-          <dt>営業時間</dt><dd>平日・土 8:30〜17:30<br><small>※ 事前予約で日祝も対応可</small></dd>
-          <dt>定休日</dt><dd>日曜・祝日</dd>
+          <dt>所在地</dt><dd data-cms="settings.住所">〒905-0018<br>沖縄県名護市大中 4-20-28</dd>
+          <dt>営業時間</dt><dd data-cms="settings.営業時間">平日・土 8:30〜17:30<br><small>※ 事前予約で日祝も対応可</small></dd>
+          <dt>定休日</dt><dd data-cms="settings.定休日">日曜・祝日</dd>
           <dt>対応エリア</dt><dd>沖縄県内全域</dd>
         </dl>
         <a href="https://casa-flor.search-mania.net/" class="btn btn--primary" target="_blank" rel="noopener">
@@ -484,7 +484,7 @@
       <div class="footer__col">
         <div class="footer__col-title">COMPANY</div>
         <div class="footer__col-body">
-          株式会社カーサフロール<br>
+          <span data-cms="settings.店名">株式会社カーサフロール</span><br>
           代表取締役 町田 弥生<br>
           年間300件以上の工事実績
         </div>
@@ -492,17 +492,15 @@
       <div class="footer__col">
         <div class="footer__col-title">CONTACT</div>
         <div class="footer__col-body">
-          〒905-0018<br>
-          沖縄県名護市大中 4-20-28<br>
+          <span data-cms="settings.住所">〒905-0018<br>沖縄県名護市大中 4-20-28</span><br>
           <a href="https://casa-flor.search-mania.net/" target="_blank" rel="noopener">お見積りフォーム →</a>
         </div>
       </div>
       <div class="footer__col">
         <div class="footer__col-title">HOURS</div>
         <div class="footer__col-body">
-          <b>平日</b> 8:30〜17:30<br>
-          <b>土曜</b> 8:30〜17:30（不定休）<br>
-          <b>定休日</b> 日曜・祝日
+          <span data-cms="settings.営業時間">平日・土 8:30〜17:30</span><br>
+          <b>定休日</b> <span data-cms="settings.定休日">日曜・祝日</span>
         </div>
       </div>
       <div class="footer__col">
@@ -525,7 +523,7 @@
       このサイトは<b>株式会社カーサフロール（沖縄・名護／代表 町田弥生）</b>の情報発信を目的に SearchMania Inc. が制作したパートナーサイトです。
     </p>
     <div class="footer__meta">
-      <div class="footer__copy">© Casa Flor. All Rights Reserved.</div>
+      <div class="footer__copy"><span data-cms="settings.コピーライト">© Casa Flor</span>. All Rights Reserved.</div>
       <div class="produced-by">
         Produced by <a href="https://search-mania.net/" target="_blank" rel="noopener">SearchMania Inc.</a>
       </div>
@@ -617,6 +615,25 @@ function applySettings(s) {
     var moreBtn = document.getElementById('reviewsMoreBtn');
     if (moreBtn && gbpUrl !== '#') moreBtn.href = gbpUrl;
   }
+  // data-cms="settings.xxx" 要素にSheets値を差し込む
+  // プレースホルダー（<xxx> 形式）は無視してハードコード値を維持
+  bindCmsSlots('settings', s);
+}
+
+// 汎用: data-cms="ns.key" 要素を values[key] で置換
+function bindCmsSlots(ns, values) {
+  if (!values) return;
+  document.querySelectorAll('[data-cms^="' + ns + '."]').forEach(function(el) {
+    var key = el.getAttribute('data-cms').slice(ns.length + 1);
+    var v = values[key];
+    if (v == null) return;
+    v = String(v).trim();
+    // プレースホルダー <xxx> や空文字は反映しない（ハードコード温存）
+    if (!v) return;
+    if (/^<.*>$/.test(v)) return;
+    // 改行文字を <br> に変換
+    el.innerHTML = esc(v).replace(/\n/g, '<br>');
+  });
 }
 
 function applyHero(h) {
