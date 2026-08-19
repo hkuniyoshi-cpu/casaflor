@@ -111,6 +111,37 @@
 </head>
 <body>
 
+<!-- ═══ 装飾SVG defs（サイト全体で共用） ═══ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="ornGold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a07830"/>
+      <stop offset="0.5" stop-color="#f0d090"/>
+      <stop offset="1" stop-color="#a07830"/>
+    </linearGradient>
+    <symbol id="ornDivider" viewBox="0 0 400 40">
+      <line x1="0" y1="20" x2="150" y2="20" stroke="url(#ornGold)" stroke-width="1"/>
+      <line x1="250" y1="20" x2="400" y2="20" stroke="url(#ornGold)" stroke-width="1"/>
+      <g transform="translate(200,20)">
+        <path d="M-24 0 L0 -14 L24 0 L0 14 Z" fill="none" stroke="#C9A84C" stroke-width="1"/>
+        <circle cx="0" cy="0" r="4" fill="#C85A33"/>
+        <circle cx="-16" cy="0" r="2" fill="#C9A84C" opacity=".7"/>
+        <circle cx="16" cy="0" r="2" fill="#C9A84C" opacity=".7"/>
+      </g>
+    </symbol>
+    <symbol id="ornFloral" viewBox="0 0 80 80">
+      <g fill="none" stroke="#C9A84C" stroke-width="0.8" opacity="0.6">
+        <circle cx="40" cy="40" r="30"/>
+        <circle cx="40" cy="40" r="18"/>
+        <path d="M40 10 L48 32 L70 40 L48 48 L40 70 L32 48 L10 40 L32 32 Z" fill="#C85A33" fill-opacity="0.08"/>
+      </g>
+    </symbol>
+    <symbol id="ornWave" viewBox="0 0 1200 50" preserveAspectRatio="none">
+      <path d="M0,25 Q100,5 200,25 T400,25 T600,25 T800,25 T1000,25 T1200,25" fill="none" stroke="url(#ornGold)" stroke-width="1" opacity="0.5"/>
+    </symbol>
+  </defs>
+</svg>
+
 <!-- ═══ ページローダー ═══ -->
 <div id="page-loader" aria-hidden="true">
   <svg class="loader-stamp" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -227,6 +258,10 @@
     <h2 class="section-title">
       スペインタイルから、<br class="sp-only"><em>空間仕上げのプロ集団</em>へ
     </h2>
+    <figure class="story__hero" data-scroll-parallax="0.15">
+      <img src="./img/story-tile-building.webp" alt="スペインタイルから沖縄の空間仕上げへ - Casa Flor の物語" loading="lazy">
+      <figcaption>一枚のタイルから、建物ぜんたいへ。</figcaption>
+    </figure>
     <div class="story__body">
       <p class="story__lead">
         Casa Florは、<em>スペインタイルの職人仕事</em>からはじまりました。<br>
@@ -309,6 +344,7 @@
 
 <!-- ═══ SERVICE ═══ -->
 <section class="section service" id="service">
+  <div class="service__deco" aria-hidden="true"><img src="./img/service-artisan.webp" alt="" loading="lazy"></div>
   <div class="section__inner">
     <div class="editorial-label">
       <span class="editorial-label__num">04</span>
@@ -349,7 +385,12 @@
       施工現場の「無骨で、汚れていて、印象が良くない」———<br>
       そんな従来の常識を、Casa Flor は<em>女性ならではの丁寧さ</em>で刷新します。
     </p>
-    <div class="features__list" id="featuresList"></div>
+    <div class="features__layout">
+      <figure class="features__image" data-scroll-tilt>
+        <img src="./img/womens-touch.webp" alt="女性コーディネーターがタイルをご案内" loading="lazy">
+      </figure>
+      <div class="features__list" id="featuresList"></div>
+    </div>
   </div>
 </section>
 
@@ -951,6 +992,81 @@ async function loadCMS() {
   }
 }
 loadCMS();
+
+/* ═══ 3D スクロール連動アニメーション ═══ */
+(function() {
+  // 各セクションのタイトル・段落・カードにreveal属性を自動付与
+  document.querySelectorAll('.section, .story, .cta').forEach(function(sec) {
+    const label = sec.querySelector('.editorial-label');
+    if (label) label.setAttribute('data-reveal', 'up');
+    const title = sec.querySelector('.section-title');
+    if (title) title.setAttribute('data-reveal', 'up-slow');
+    const lead = sec.querySelector('.section-lead, .services__lead, .story__lead');
+    if (lead) lead.setAttribute('data-reveal', 'up-slow');
+  });
+  document.querySelectorAll('.menu-card, .feat-card, .pos-card:not(.pos-card--mul), .trust-item, .qa-item, .sns__card, .review').forEach(function(el, i) {
+    el.setAttribute('data-reveal', 'up');
+    el.style.setProperty('--reveal-delay', (i % 6 * 80) + 'ms');
+  });
+  document.querySelectorAll('.story__body p, .story__list, .story__closing, .about__text p').forEach(function(el) {
+    el.setAttribute('data-reveal', 'up');
+  });
+
+  // IntersectionObserver で reveal
+  const io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(function(el) { io.observe(el); });
+
+  // Parallax + 3D tilt スクロール連動
+  const parallaxEls = document.querySelectorAll('[data-scroll-parallax]');
+  const tiltEls = document.querySelectorAll('[data-scroll-tilt]');
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      const vh = window.innerHeight;
+      parallaxEls.forEach(function(el) {
+        const rect = el.getBoundingClientRect();
+        const speed = parseFloat(el.getAttribute('data-scroll-parallax')) || 0.15;
+        const offset = (rect.top - vh / 2) * -speed;
+        el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+      });
+      tiltEls.forEach(function(el) {
+        const rect = el.getBoundingClientRect();
+        const progress = Math.max(-1, Math.min(1, (vh / 2 - rect.top - rect.height / 2) / vh));
+        const rotY = progress * 8;
+        const rotX = progress * -4;
+        el.style.transform = 'perspective(1200px) rotateY(' + rotY.toFixed(2) + 'deg) rotateX(' + rotX.toFixed(2) + 'deg)';
+      });
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // 浮遊するゴールド粒子
+  const partWrap = document.createElement('div');
+  partWrap.className = 'gold-particles';
+  partWrap.setAttribute('aria-hidden', 'true');
+  for (let i = 0; i < 14; i++) {
+    const p = document.createElement('span');
+    p.className = 'gold-particle';
+    p.style.cssText = 'left:' + (Math.random() * 100).toFixed(1) + '%;' +
+                      'animation-delay:' + (Math.random() * 12).toFixed(1) + 's;' +
+                      'animation-duration:' + (12 + Math.random() * 12).toFixed(1) + 's;' +
+                      'opacity:' + (0.15 + Math.random() * 0.35).toFixed(2) + ';' +
+                      'transform:scale(' + (0.5 + Math.random() * 1).toFixed(2) + ')';
+    partWrap.appendChild(p);
+  }
+  document.body.appendChild(partWrap);
+})();
 
 </script>
 </body>
