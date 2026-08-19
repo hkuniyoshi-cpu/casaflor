@@ -314,48 +314,8 @@
     <div class="positioning__grid">
       <div class="pos-card">
         <div class="pos-card__num">01</div>
-        <div class="pos-card__icon pos-card__icon--large" aria-hidden="true">
-          <!-- 女性的な美観: 8弁ローズブロッサム + 葉 + 露 -->
-          <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="petalG1" cx="50%" cy="50%">
-                <stop offset="0%" stop-color="#F5E6E6"/>
-                <stop offset="60%" stop-color="#D4A5A5"/>
-                <stop offset="100%" stop-color="#C85A33"/>
-              </radialGradient>
-              <radialGradient id="ctrG1" cx="50%" cy="50%">
-                <stop offset="0%" stop-color="#F0D090"/>
-                <stop offset="100%" stop-color="#C9A84C"/>
-              </radialGradient>
-            </defs>
-            <!-- 外周装飾円 -->
-            <circle cx="48" cy="48" r="42" fill="none" stroke="#C9A84C" stroke-width="0.6" opacity="0.5" stroke-dasharray="2 3"/>
-            <!-- 葉（後ろ） -->
-            <g fill="#8FA872" stroke="#5F7A4E" stroke-width="0.6" stroke-linejoin="round">
-              <path d="M14 62 Q22 46 34 54 Q28 62 14 62 Z" opacity="0.75"/>
-              <path d="M82 62 Q74 46 62 54 Q68 62 82 62 Z" opacity="0.75"/>
-              <path d="M48 82 Q40 74 44 60 Q52 60 56 74 Q54 82 48 82 Z" opacity="0.6"/>
-            </g>
-            <!-- 8弁ローズ -->
-            <g stroke="#A0451F" stroke-width="0.9" stroke-linejoin="round">
-              <ellipse cx="48" cy="30" rx="10" ry="16" fill="url(#petalG1)" opacity="0.9"/>
-              <ellipse cx="48" cy="66" rx="10" ry="16" fill="url(#petalG1)" opacity="0.9"/>
-              <ellipse cx="30" cy="48" rx="16" ry="10" fill="url(#petalG1)" opacity="0.9"/>
-              <ellipse cx="66" cy="48" rx="16" ry="10" fill="url(#petalG1)" opacity="0.9"/>
-              <ellipse cx="34" cy="34" rx="12" ry="8" fill="url(#petalG1)" opacity="0.85" transform="rotate(-45 34 34)"/>
-              <ellipse cx="62" cy="34" rx="12" ry="8" fill="url(#petalG1)" opacity="0.85" transform="rotate(45 62 34)"/>
-              <ellipse cx="34" cy="62" rx="12" ry="8" fill="url(#petalG1)" opacity="0.85" transform="rotate(45 34 62)"/>
-              <ellipse cx="62" cy="62" rx="12" ry="8" fill="url(#petalG1)" opacity="0.85" transform="rotate(-45 62 62)"/>
-            </g>
-            <!-- 中心ジェム -->
-            <circle cx="48" cy="48" r="9" fill="url(#ctrG1)" stroke="#A07830" stroke-width="1"/>
-            <circle cx="46" cy="46" r="2.5" fill="#FDF8F3" opacity="0.7"/>
-            <!-- 露 -->
-            <circle cx="18" cy="24" r="1.8" fill="#C9A84C" opacity="0.8"/>
-            <circle cx="78" cy="24" r="1.4" fill="#C9A84C" opacity="0.7"/>
-            <circle cx="14" cy="46" r="1.2" fill="#C85A33" opacity="0.6"/>
-            <circle cx="82" cy="46" r="1.2" fill="#C85A33" opacity="0.6"/>
-          </svg>
+        <div class="pos-card__icon pos-card__icon--photo" aria-hidden="true">
+          <img src="./img/icon-rose.webp" alt="" loading="lazy">
         </div>
         <h3 class="pos-card__title">女性的な美観</h3>
         <p class="pos-card__text">色柄・仕上げ・目地の細部まで、女性コーディネーターが空間の"見え方"から丁寧にご提案。</p>
@@ -363,44 +323,8 @@
       <div class="pos-card pos-card--mul">×</div>
       <div class="pos-card">
         <div class="pos-card__num">02</div>
-        <div class="pos-card__icon pos-card__icon--large" aria-hidden="true">
-          <!-- トータル提案: 8角スパニッシュタイル・コンパスローズ -->
-          <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="petG2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#F0D090"/>
-                <stop offset="1" stop-color="#A07830"/>
-              </linearGradient>
-              <radialGradient id="ctrG2" cx="50%" cy="50%">
-                <stop offset="0%" stop-color="#E8734A"/>
-                <stop offset="100%" stop-color="#A0451F"/>
-              </radialGradient>
-            </defs>
-            <!-- 外周ドットリング -->
-            <g fill="#C9A84C" opacity="0.7">
-              <circle cx="48" cy="8" r="1.4"/><circle cx="48" cy="88" r="1.4"/>
-              <circle cx="8" cy="48" r="1.4"/><circle cx="88" cy="48" r="1.4"/>
-              <circle cx="19.7" cy="19.7" r="1.2"/><circle cx="76.3" cy="19.7" r="1.2"/>
-              <circle cx="19.7" cy="76.3" r="1.2"/><circle cx="76.3" cy="76.3" r="1.2"/>
-            </g>
-            <circle cx="48" cy="48" r="42" fill="none" stroke="#C9A84C" stroke-width="0.6" opacity="0.4"/>
-            <!-- 8方向スター -->
-            <g stroke="#8A6020" stroke-width="0.9" stroke-linejoin="round">
-              <path d="M48 14 L54 40 L48 46 L42 40 Z" fill="url(#petG2)" opacity="0.9"/>
-              <path d="M48 82 L42 56 L48 50 L54 56 Z" fill="url(#petG2)" opacity="0.9"/>
-              <path d="M14 48 L40 42 L46 48 L40 54 Z" fill="url(#petG2)" opacity="0.9"/>
-              <path d="M82 48 L56 54 L50 48 L56 42 Z" fill="url(#petG2)" opacity="0.9"/>
-              <path d="M22 22 L42 38 L46 42 L38 42 Z" fill="url(#petG2)" opacity="0.8"/>
-              <path d="M74 22 L54 38 L50 42 L58 42 Z" fill="url(#petG2)" opacity="0.8"/>
-              <path d="M22 74 L42 58 L46 54 L38 54 Z" fill="url(#petG2)" opacity="0.8"/>
-              <path d="M74 74 L54 58 L50 54 L58 54 Z" fill="url(#petG2)" opacity="0.8"/>
-            </g>
-            <!-- 中心多重リング -->
-            <circle cx="48" cy="48" r="14" fill="none" stroke="#C9A84C" stroke-width="1"/>
-            <circle cx="48" cy="48" r="9" fill="url(#ctrG2)" stroke="#8A6020" stroke-width="0.9"/>
-            <circle cx="48" cy="48" r="4" fill="#F0D090" opacity="0.9"/>
-            <circle cx="47" cy="47" r="1.3" fill="#FDF8F3" opacity="0.85"/>
-          </svg>
+        <div class="pos-card__icon pos-card__icon--photo" aria-hidden="true">
+          <img src="./img/icon-compass.webp" alt="" loading="lazy">
         </div>
         <h3 class="pos-card__title">トータル提案</h3>
         <p class="pos-card__text">タイル・石・瓦・防水・内装・外装まで、"仕上げ"に関わる工事すべてを一つの窓口で。</p>
@@ -408,52 +332,8 @@
       <div class="pos-card pos-card--mul">×</div>
       <div class="pos-card">
         <div class="pos-card__num">03</div>
-        <div class="pos-card__icon pos-card__icon--large" aria-hidden="true">
-          <!-- 親しみやすさ: 装飾フレーム＋温かなハート＋草花 -->
-          <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="heartG3" cx="35%" cy="35%">
-                <stop offset="0%" stop-color="#F5B8A0"/>
-                <stop offset="60%" stop-color="#C85A33"/>
-                <stop offset="100%" stop-color="#A0451F"/>
-              </radialGradient>
-              <linearGradient id="frameG3" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#F0D090"/>
-                <stop offset="1" stop-color="#A07830"/>
-              </linearGradient>
-            </defs>
-            <!-- 装飾リング（葉と花で構成） -->
-            <g fill="none" stroke="url(#frameG3)" stroke-width="1" stroke-linecap="round">
-              <circle cx="48" cy="48" r="40" opacity="0.5" stroke-dasharray="3 4"/>
-              <circle cx="48" cy="48" r="34" opacity="0.85"/>
-            </g>
-            <!-- 装飾の小花 -->
-            <g fill="#D4A5A5" stroke="#A0451F" stroke-width="0.5" opacity="0.85">
-              <circle cx="48" cy="12" r="3"/>
-              <circle cx="48" cy="84" r="3"/>
-              <circle cx="12" cy="48" r="3"/>
-              <circle cx="84" cy="48" r="3"/>
-            </g>
-            <g fill="#C9A84C" opacity="0.85">
-              <circle cx="48" cy="12" r="1.2"/>
-              <circle cx="48" cy="84" r="1.2"/>
-              <circle cx="12" cy="48" r="1.2"/>
-              <circle cx="84" cy="48" r="1.2"/>
-            </g>
-            <!-- 葉飾り -->
-            <g fill="#8FA872" opacity="0.7">
-              <path d="M22 22 Q28 26 24 32 Q18 28 22 22 Z"/>
-              <path d="M74 22 Q68 26 72 32 Q78 28 74 22 Z"/>
-              <path d="M22 74 Q28 70 24 64 Q18 68 22 74 Z"/>
-              <path d="M74 74 Q68 70 72 64 Q78 68 74 74 Z"/>
-            </g>
-            <!-- 中央ハート -->
-            <path d="M48 68 C36 58 26 52 26 42 C26 34 32 30 38 30 C42 30 46 32 48 36 C50 32 54 30 58 30 C64 30 70 34 70 42 C70 52 60 58 48 68 Z"
-                  fill="url(#heartG3)" stroke="#8A3A1A" stroke-width="1.2" stroke-linejoin="round"/>
-            <!-- ハート上のハイライト -->
-            <path d="M38 34 Q42 32 44 36" fill="none" stroke="#FDF8F3" stroke-width="1.4" stroke-linecap="round" opacity="0.75"/>
-            <circle cx="38" cy="40" r="1.5" fill="#FDF8F3" opacity="0.6"/>
-          </svg>
+        <div class="pos-card__icon pos-card__icon--photo" aria-hidden="true">
+          <img src="./img/icon-tea.webp" alt="" loading="lazy">
         </div>
         <h3 class="pos-card__title">親しみやすさ</h3>
         <p class="pos-card__text">「相談しにくかった」を「気軽に頼める」に。専門用語を噛み砕き、じっくりお伺いします。</p>
@@ -461,52 +341,8 @@
       <div class="pos-card pos-card--mul">×</div>
       <div class="pos-card">
         <div class="pos-card__num">04</div>
-        <div class="pos-card__icon pos-card__icon--large" aria-hidden="true">
-          <!-- メンテナンス: 月桂樹の輪＋中央にリボン付きエンブレム -->
-          <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="leafG4" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#B5C89A"/>
-                <stop offset="1" stop-color="#5F7A4E"/>
-              </linearGradient>
-              <radialGradient id="embG4" cx="50%" cy="45%">
-                <stop offset="0%" stop-color="#F0D090"/>
-                <stop offset="70%" stop-color="#C9A84C"/>
-                <stop offset="100%" stop-color="#8A6020"/>
-              </radialGradient>
-            </defs>
-            <!-- 装飾破線円 -->
-            <circle cx="48" cy="48" r="44" fill="none" stroke="#C9A84C" stroke-width="0.6" opacity="0.4" stroke-dasharray="1 3"/>
-            <!-- 月桂樹（左） -->
-            <g fill="url(#leafG4)" stroke="#3F5A32" stroke-width="0.5" stroke-linejoin="round">
-              <path d="M14 48 Q10 40 14 34 Q20 38 20 44 Z"/>
-              <path d="M15 56 Q11 50 15 44 Q21 48 21 54 Z"/>
-              <path d="M18 64 Q14 58 18 52 Q24 56 24 62 Z"/>
-              <path d="M23 71 Q19 65 23 59 Q29 63 29 69 Z"/>
-              <path d="M17 40 Q13 34 17 28 Q23 32 23 38 Z"/>
-              <path d="M22 32 Q18 26 22 20 Q28 24 28 30 Z"/>
-              <path d="M30 22 Q26 16 30 10 Q36 14 36 20 Z"/>
-            </g>
-            <!-- 月桂樹（右・鏡像） -->
-            <g fill="url(#leafG4)" stroke="#3F5A32" stroke-width="0.5" stroke-linejoin="round">
-              <path d="M82 48 Q86 40 82 34 Q76 38 76 44 Z"/>
-              <path d="M81 56 Q85 50 81 44 Q75 48 75 54 Z"/>
-              <path d="M78 64 Q82 58 78 52 Q72 56 72 62 Z"/>
-              <path d="M73 71 Q77 65 73 59 Q67 63 67 69 Z"/>
-              <path d="M79 40 Q83 34 79 28 Q73 32 73 38 Z"/>
-              <path d="M74 32 Q78 26 74 20 Q68 24 68 30 Z"/>
-              <path d="M66 22 Q70 16 66 10 Q60 14 60 20 Z"/>
-            </g>
-            <!-- 下部リボン -->
-            <path d="M28 78 L48 82 L68 78 L60 88 L48 84 L36 88 Z" fill="#C85A33" stroke="#8A3A1A" stroke-width="0.6" stroke-linejoin="round"/>
-            <!-- 中央エンブレム -->
-            <circle cx="48" cy="48" r="18" fill="url(#embG4)" stroke="#8A6020" stroke-width="1.1"/>
-            <circle cx="48" cy="48" r="13" fill="none" stroke="#FDF8F3" stroke-width="0.7" opacity="0.6"/>
-            <!-- ∞ 無限記号 -->
-            <path d="M40 48 C38 44 42 42 44 46 C46 50 50 50 52 46 C54 42 58 44 56 48 C58 52 54 54 52 50 C50 46 46 46 44 50 C42 54 38 52 40 48 Z"
-                  fill="none" stroke="#FDF8F3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="48" cy="48" r="1.4" fill="#FDF8F3"/>
-          </svg>
+        <div class="pos-card__icon pos-card__icon--photo" aria-hidden="true">
+          <img src="./img/icon-laurel.webp" alt="" loading="lazy">
         </div>
         <h3 class="pos-card__title">メンテナンス</h3>
         <p class="pos-card__text">単発の工事屋ではなく、傷む前に手当てする"予防型"で建物と長くお付き合い。</p>
