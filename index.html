@@ -992,13 +992,12 @@ loadCMS();
     const goldSoft = isDark ? '#f5dfa5' : '#a07830';
     const tera = isDark ? '#e58860' : '#C85A33';
     // シードで波形の位相をずらして、区切りごとに違う波にする
-    const p1 = 60 + (seed % 3) * 6;
-    const p2 = 80 + ((seed + 1) % 3) * 6;
+    const p1 = 90 + (seed % 3) * 8;
     const g1 = 'wg1_' + seed;
     const g2 = 'wg2_' + seed;
-    // wave-fill パス：セクション色で上端を波形にする（下は完全塗り）
-    const fillPath = 'M0,140 L0,' + p1 + ' C240,' + (p1-24) + ' 480,' + (p1+30) + ' 720,' + p1 + ' C960,' + (p1-24) + ' 1200,' + (p1+30) + ' 1440,' + p1 + ' L1440,140 Z';
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 140" preserveAspectRatio="none">' +
+    // wave-fill パス：セクション色で上端を波形にする（振幅±40で境界を明瞭に）
+    const fillPath = 'M0,180 L0,' + p1 + ' C240,' + (p1-40) + ' 480,' + (p1+45) + ' 720,' + p1 + ' C960,' + (p1-40) + ' 1200,' + (p1+45) + ' 1440,' + p1 + ' L1440,180 Z';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" preserveAspectRatio="none">' +
       '<defs>' +
         '<linearGradient id="' + g1 + '" x1="0" y1="0" x2="1" y2="0">' +
           '<stop offset="0" stop-color="' + goldSoft + '" stop-opacity="0"/>' +
@@ -1016,8 +1015,8 @@ loadCMS();
       // ★ 色付き波：セクション本来の bg 色で上端を波形にする（境界そのものを波状に）
       '<path class="wave-fill" d="' + fillPath + '"/>' +
       // 装飾金ライン：色付き波の際に沿って流れる
-      '<path d="M0,' + p1 + ' C240,' + (p1-24) + ' 480,' + (p1+30) + ' 720,' + p1 + ' C960,' + (p1-24) + ' 1200,' + (p1+30) + ' 1440,' + p1 + '" fill="none" stroke="url(#' + g1 + ')" stroke-width="1.5"/>' +
-      '<path d="M0,' + (p1+14) + ' C240,' + (p1-8) + ' 480,' + (p1+46) + ' 720,' + (p1+14) + ' C960,' + (p1-8) + ' 1200,' + (p1+46) + ' 1440,' + (p1+14) + '" fill="none" stroke="url(#' + g2 + ')" stroke-width="1.0" opacity="0.6"/>' +
+      '<path d="M0,' + p1 + ' C240,' + (p1-40) + ' 480,' + (p1+45) + ' 720,' + p1 + ' C960,' + (p1-40) + ' 1200,' + (p1+45) + ' 1440,' + p1 + '" fill="none" stroke="url(#' + g1 + ')" stroke-width="1.6"/>' +
+      '<path d="M0,' + (p1+18) + ' C240,' + (p1-14) + ' 480,' + (p1+58) + ' 720,' + (p1+18) + ' C960,' + (p1-14) + ' 1200,' + (p1+58) + ' 1440,' + (p1+18) + '" fill="none" stroke="url(#' + g2 + ')" stroke-width="1.0" opacity="0.6"/>' +
       // 装飾菱形
       '<g transform="translate(360,' + p1 + ')">' +
         '<path d="M-14 0 L0 -8 L14 0 L0 8 Z" fill="none" stroke="' + gold + '" stroke-width="1" opacity="0.75"/>' +
