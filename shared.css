@@ -190,6 +190,119 @@ b { font-weight: 600; }
   .hero-cone__ring { animation-duration: 180s; }
 }
 
+/* ═══ HERO 沖縄背景アニメーション ═══ */
+.hero-blog { position: relative; overflow: hidden; isolation: isolate; }
+.okinawa-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+
+/* 遠景の夕日 */
+.okinawa-sun {
+  position: absolute; top: 60px; right: 8%;
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%,
+    rgba(255,220,180,0.85) 0%,
+    rgba(240,175,120,0.55) 30%,
+    rgba(232,115,74,0.30) 55%,
+    transparent 75%);
+  filter: blur(2px);
+  will-change: transform;
+  animation: sun-pulse 8s ease-in-out infinite;
+}
+@keyframes sun-pulse {
+  0%,100% { transform: scale(1); opacity: 0.9; }
+  50%     { transform: scale(1.05); opacity: 1; }
+}
+
+/* 光の残照グロー */
+.okinawa-glow {
+  position: absolute; top: -100px; right: -100px;
+  width: 900px; height: 900px; border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255,200,150,0.35) 0%,
+    rgba(240,175,120,0.15) 30%,
+    transparent 60%);
+  filter: blur(20px);
+  will-change: transform;
+}
+
+/* 紅型（bingata）風のフローラルパターン */
+.okinawa-bingata {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23C85A33' stroke-width='0.6' opacity='0.10'%3E%3Cpath d='M60 20 C70 30 70 45 60 55 C50 45 50 30 60 20 Z'/%3E%3Cpath d='M60 65 C70 75 70 90 60 100 C50 90 50 75 60 65 Z'/%3E%3Ccircle cx='60' cy='60' r='6'/%3E%3Cpath d='M20 60 C30 55 40 55 55 60 C40 65 30 65 20 60'/%3E%3Cpath d='M65 60 C80 55 90 55 100 60 C90 65 80 65 65 60'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  opacity: 0.65;
+  will-change: transform;
+}
+
+/* 遠景の島影 */
+.okinawa-island {
+  position: absolute; bottom: 100px; left: 0; right: 0;
+  width: 100%; height: 200px;
+  opacity: 0.55;
+  will-change: transform;
+}
+
+/* 波（3層） */
+.okinawa-waves {
+  position: absolute; bottom: 0; left: -5%; right: -5%;
+  width: 110%; height: 220px;
+  opacity: 0.55;
+}
+.okinawa-waves path { stroke-width: 1.4; will-change: transform; }
+.okinawa-waves .wave1 { stroke: rgba(200,90,51,.7); animation: wave-drift 22s ease-in-out infinite; }
+.okinawa-waves .wave2 { stroke: rgba(201,168,76,.6); animation: wave-drift 28s ease-in-out infinite -8s; }
+.okinawa-waves .wave3 { stroke: rgba(232,115,74,.5); animation: wave-drift 34s ease-in-out infinite -15s; }
+@keyframes wave-drift {
+  0%,100% { transform: translateX(0); }
+  50%     { transform: translateX(40px); }
+}
+
+/* ハイビスカス花弁（5枚花弁のシルエット） */
+.hibiscus-petal {
+  position: absolute; top: -40px; left: var(--x, 50%);
+  width: 22px; height: 22px;
+  background: radial-gradient(circle at 30% 30%,
+    rgba(255,220,180,0.95),
+    rgba(200,90,51,0.75) 55%,
+    rgba(160,69,31,0.6));
+  clip-path: polygon(50% 0%, 90% 40%, 75% 100%, 25% 100%, 10% 40%);
+  filter: drop-shadow(0 2px 4px rgba(200,90,51,0.20));
+  animation: petal-fall var(--dur, 25s) linear infinite var(--d, 0s);
+  will-change: transform, opacity;
+}
+@keyframes petal-fall {
+  0%   { transform: translate(0, -50px) rotate(0deg) scale(0.8); opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translate(80px, 40vh) rotate(200deg) scale(1); opacity: 0.85; }
+  90%  { opacity: 0.5; }
+  100% { transform: translate(-40px, 90vh) rotate(400deg) scale(0.7); opacity: 0; }
+}
+
+/* 光の粒（ゆらゆら） */
+.okinawa-orb {
+  position: absolute; top: var(--y, 50%); left: var(--x, 50%);
+  width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255,240,200,0.9) 0%,
+    rgba(240,208,144,0.6) 40%,
+    transparent 70%);
+  box-shadow: 0 0 14px rgba(255,220,150,0.6);
+  animation: orb-float 6s ease-in-out infinite var(--d, 0s);
+}
+@keyframes orb-float {
+  0%,100% { transform: translate(0,0); opacity: 0.5; }
+  50%     { transform: translate(20px,-30px); opacity: 0.95; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .okinawa-sun, .okinawa-waves path, .hibiscus-petal, .okinawa-orb { animation: none; }
+}
+@media (max-width: 700px) {
+  .okinawa-sun { width: 180px; height: 180px; top: 40px; right: 5%; }
+  .okinawa-glow { width: 600px; height: 600px; }
+  .okinawa-waves { height: 140px; }
+  .hibiscus-petal { width: 18px; height: 18px; }
+}
+
 /* ═══ HERO (Blog compact) — 旧 ═══ */
 .hero-blog { position: relative; padding: 140px 24px 80px; text-align: center; }
 .hero-blog__inner { max-width: 940px; margin: 0 auto; position: relative; z-index: 2; }

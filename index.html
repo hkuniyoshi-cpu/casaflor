@@ -226,8 +226,47 @@
   </div>
 </nav>
 
-<!-- ═══ HERO（コンパクト・ブログ導入） ═══ -->
+<!-- ═══ HERO（沖縄背景アニメーション付き） ═══ -->
 <section class="hero-blog" id="top">
+  <!-- 沖縄背景演出（スクロール連動パララックス） -->
+  <div class="okinawa-bg" aria-hidden="true">
+    <!-- 遠景の夕日 -->
+    <div class="okinawa-sun" data-parallax="0.35"></div>
+    <!-- 光の残照 -->
+    <div class="okinawa-glow" data-parallax="0.20"></div>
+    <!-- 紅型（bingata）風パターン -->
+    <div class="okinawa-bingata" data-parallax="0.12"></div>
+    <!-- 遠景の島影シルエット -->
+    <svg class="okinawa-island" viewBox="0 0 1440 220" preserveAspectRatio="none" data-parallax="0.10">
+      <defs>
+        <linearGradient id="islandG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#C85A33" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="#A0451F" stop-opacity="0.35"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,180 Q140,100 260,140 T500,120 Q640,90 780,130 T1040,110 Q1200,80 1320,120 T1440,140 L1440,220 L0,220 Z" fill="url(#islandG)"/>
+    </svg>
+    <!-- 波のライン（3レイヤー） -->
+    <svg class="okinawa-waves" viewBox="0 0 1440 200" preserveAspectRatio="none">
+      <path class="wave1" d="M0,120 C240,80 480,160 720,120 C960,80 1200,160 1440,120" fill="none"/>
+      <path class="wave2" d="M0,140 C240,100 480,180 720,140 C960,100 1200,180 1440,140" fill="none"/>
+      <path class="wave3" d="M0,160 C240,120 480,200 720,160 C960,120 1200,200 1440,160" fill="none"/>
+    </svg>
+    <!-- ハイビスカス花弁（8個） -->
+    <span class="hibiscus-petal" style="--x:8%;--d:0s;--dur:22s;"></span>
+    <span class="hibiscus-petal" style="--x:22%;--d:4s;--dur:26s;"></span>
+    <span class="hibiscus-petal" style="--x:35%;--d:9s;--dur:24s;"></span>
+    <span class="hibiscus-petal" style="--x:48%;--d:2s;--dur:28s;"></span>
+    <span class="hibiscus-petal" style="--x:62%;--d:11s;--dur:23s;"></span>
+    <span class="hibiscus-petal" style="--x:75%;--d:6s;--dur:27s;"></span>
+    <span class="hibiscus-petal" style="--x:88%;--d:13s;--dur:25s;"></span>
+    <span class="hibiscus-petal" style="--x:94%;--d:16s;--dur:29s;"></span>
+    <!-- 光の粒 -->
+    <span class="okinawa-orb" style="--x:15%;--y:30%;--d:0s;"></span>
+    <span class="okinawa-orb" style="--x:75%;--y:25%;--d:2s;"></span>
+    <span class="okinawa-orb" style="--x:45%;--y:60%;--d:4s;"></span>
+    <span class="okinawa-orb" style="--x:85%;--y:55%;--d:6s;"></span>
+  </div>
   <div class="hero-blog__inner">
     <div class="hero-blog__eyebrow">
       <span class="hero-blog__eyebrow-line"></span>
@@ -775,6 +814,36 @@ async function loadCMS() {
   }
 }
 loadCMS();
+
+/* ═══ 沖縄ヒーロー背景 スクロールパララックス ═══ */
+(function() {
+  const parallaxEls = document.querySelectorAll('.okinawa-bg [data-parallax]');
+  if (!parallaxEls.length) return;
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      const y = window.scrollY;
+      parallaxEls.forEach(function(el) {
+        const speed = parseFloat(el.getAttribute('data-parallax')) || 0.15;
+        el.style.transform = 'translate3d(0,' + (y * -speed).toFixed(1) + 'px,0)';
+      });
+      // 波は逆方向にゆっくり
+      const waves = document.querySelectorAll('.okinawa-waves path');
+      waves.forEach(function(w, i) {
+        w.style.transform = 'translateY(' + (y * 0.08 * (i + 1)).toFixed(1) + 'px)';
+      });
+      // 花弁はスクロール量に応じて透明度を下げる（下スクロール中に少しずつ消える）
+      const petals = document.querySelectorAll('.hibiscus-petal');
+      const fade = Math.max(0, 1 - y / 700);
+      petals.forEach(function(p) { p.style.opacity = fade; });
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
 
 /* ═══ Scroll Reveal ═══ */
 (function() {
