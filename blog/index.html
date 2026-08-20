@@ -163,6 +163,24 @@ header a{
   header a{font-size:14px;letter-spacing:.28em}
   .back-btn{padding:13px 28px;font-size:12px}
 }
+/* === LIST モード（?post= なし） === */
+.list-head { text-align: center; padding: 20px 0 40px; }
+.list-eyebrow { font-family: Georgia, serif; font-size: 11px; letter-spacing: .3em; color: #A07830; margin-bottom: 12px; }
+.list-title { font-family: 'Noto Serif JP', serif; font-size: clamp(26px, 3.4vw, 40px); font-weight: 500; color: #2B2622; margin: 0 0 10px; letter-spacing: .04em; }
+.list-sub { font-size: 13px; color: #6B5D50; letter-spacing: .1em; }
+.post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 24px; }
+.post-item { display: flex; flex-direction: column; background: #fff; border: 1px solid rgba(201,168,76,.25); border-radius: 8px; overflow: hidden; box-shadow: 0 6px 20px rgba(200,90,51,.08); transition: transform .3s, box-shadow .3s; color: inherit; text-decoration: none; }
+.post-item:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(200,90,51,.18); }
+.post-item__img { width: 100%; aspect-ratio: 4/3; background: #F5EADB; overflow: hidden; }
+.post-item__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.post-item__img--none { background: linear-gradient(135deg, #F5EADB, #F5E6E6); }
+.post-item__body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+.post-item__date { font-family: Georgia, serif; font-size: 12px; color: #A07830; letter-spacing: .06em; }
+.post-item__title { font-family: 'Noto Serif JP', serif; font-size: 15px; line-height: 1.6; font-weight: 500; color: #2B2622; margin: 0; word-break: break-word; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; min-height: 4.8em; }
+.post-item:hover .post-item__title { color: #C85A33; }
+.post-item__cta { font-size: 12px; color: #C85A33; letter-spacing: .06em; margin-top: 4px; }
+@media (max-width: 900px) { .post-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+@media (max-width: 600px) { .post-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -361,12 +379,69 @@ function render(item) {
     '</div>';
 }
 
+/* 記事一覧モードのレンダリング */
+function renderList(items) {
+  const root = document.getElementById('root');
+  const list = (items || []).filter(function(b) { return b && (b.body || b.title); });
+  document.title = 'すべての記事一覧 | ' + STORE_NAME;
+  var descText = STORE_NAME + 'が発信する内外装・タイル・防水・沖縄気候対応など、全' + list.length + '件の記事一覧。';
+  updateMeta('すべての記事一覧', descText, SITE_URL + '/ogp.png');
+  if (!list.length) {
+    root.innerHTML =
+      '<div class="not-found">' +
+        '<h1>記事一覧</h1>' +
+        '<p>まだ記事がありません。</p>' +
+        '<a class="back-btn" href="' + esc(SITE_URL) + '/">← トップへ戻る</a>' +
+      '</div>';
+    return;
+  }
+  root.innerHTML =
+    '<div class="list-head">' +
+      '<div class="list-eyebrow">JOURNAL — ARCHIVE</div>' +
+      '<h1 class="list-title">すべての記事</h1>' +
+      '<p class="list-sub">全 ' + list.length + ' 件（新しい順）</p>' +
+    '</div>' +
+    '<div class="post-grid">' +
+      list.map(function(post, i) {
+        var img = driveImg(post.image);
+        var rawTitle = (post.title || '').trim();
+        if (!rawTitle && post.body) rawTitle = String(post.body).split(/[。\n]/)[0].trim();
+        if (!rawTitle && post.date) rawTitle = fmtDate(post.date) + ' の投稿';
+        rawTitle = rawTitle.replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F000}-\u{1F2FF}\s]+/u, '').replace(/^#\s*/, '').trim();
+        var slugMatch = (post.url || '').match(/\/blog\/([^\/\?#]+)/);
+        var slug = slugMatch ? slugMatch[1] : (post.date || '');
+        var href = slug ? '/blog/?post=' + slug + '&n=' + i : '#';
+        return '<a href="' + href + '" class="post-item">' +
+          (img ? '<div class="post-item__img"><img src="' + esc(img) + '" alt="" loading="lazy"></div>' : '<div class="post-item__img post-item__img--none"></div>') +
+          '<div class="post-item__body">' +
+            (post.date ? '<time class="post-item__date">' + esc(fmtDate(post.date)) + '</time>' : '') +
+            '<h3 class="post-item__title">' + esc(rawTitle) + '</h3>' +
+            '<span class="post-item__cta">続きを読む →</span>' +
+          '</div>' +
+        '</a>';
+      }).join('') +
+    '</div>' +
+    '<div class="back-wrap">' +
+      '<a class="back-btn" href="' + esc(SITE_URL) + '/">← トップへ戻る</a>' +
+    '</div>' +
+    '<div class="produced-by">' +
+      'Produced by <a href="https://search-mania.net/" target="_blank" rel="noopener noreferrer">SearchMania Inc.</a>' +
+    '</div>';
+}
+
 /* 起動 */
 (function init() {
   const slug = getSlug();
   const n    = getN();
   if (!slug && n < 0) {
-    render(null);
+    // LIST モード：全件取得して一覧表示
+    fetch(GAS_URL + (GAS_URL.indexOf('?') >= 0 ? '&' : '?') + 'blog_all=1')
+      .then(function(r) { return r.json(); })
+      .then(function(data) { renderList(data && data.blog); })
+      .catch(function(err) {
+        console.warn('CMS fetch error:', err);
+        fetch(GAS_URL).then(function(r){return r.json();}).then(function(data){ renderList(data && data.blog); }).catch(function(){ renderList([]); });
+      });
     return;
   }
 

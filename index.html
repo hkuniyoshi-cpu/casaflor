@@ -226,30 +226,35 @@
   </div>
 </nav>
 
-<!-- ═══ HERO（コンパクト・ブログ導入） ═══ -->
-<section class="hero-blog" id="top">
-  <div class="hero-blog__inner">
-    <div class="hero-blog__eyebrow">
-      <span class="hero-blog__eyebrow-line"></span>
+<!-- ═══ HERO — 3D円錐フォトカルーセル ═══ -->
+<section class="hero-cone" id="top">
+  <div class="hero-cone__stage" aria-hidden="true">
+    <div class="hero-cone__ring" id="heroConeRing"></div>
+    <div class="hero-cone__reflection" id="heroConeReflection"></div>
+  </div>
+  <div class="hero-cone__overlay" aria-hidden="true"></div>
+  <div class="hero-cone__inner">
+    <div class="hero-cone__eyebrow">
+      <span class="hero-cone__eyebrow-line"></span>
       <span>CASA FLOR JOURNAL — OKINAWA · NAGO</span>
-      <span class="hero-blog__eyebrow-line"></span>
+      <span class="hero-cone__eyebrow-line"></span>
     </div>
-    <h1 class="hero-blog__title">
+    <h1 class="hero-cone__title">
       沖縄の建物を、<br>
       <em>長く、美しく、育てていく</em>ための<br>
       実践情報を発信しています。
     </h1>
-    <p class="hero-blog__sub">
+    <p class="hero-cone__sub">
       内外装仕上げのプロ集団「Casa Flor（株式会社カーサフロール）」による公式ジャーナル。<br>
       タイル・防水・塗装・沖縄の気候対応・予防型メンテナンスまで、<br class="pc-only">
       代表 町田弥生と現場のプロが<b>実体験ベース</b>でお届けします。
     </p>
-    <div class="hero-blog__cta">
+    <div class="hero-cone__cta">
       <a href="#blog" class="btn btn--primary">最新記事を読む ↓</a>
       <a href="#" id="ctaOfficial2" class="btn btn--ghost" target="_blank" rel="noopener">公式サイトへ →</a>
     </div>
-    <ul class="hero-blog__meta">
-      <li><b>沖縄・名護</b>を拠点に活動</li>
+    <ul class="hero-cone__meta">
+      <li><b>沖縄・名護</b>を拠点</li>
       <li>年間<b>300件+</b>の工事実績</li>
       <li><b>3,500件+</b>の相談・アドバイス</li>
       <li>代表 <b>町田 弥生</b>（女性経営者）</li>
@@ -713,8 +718,30 @@ function applyFAQ(items) {
   `).join('');
 }
 
+function applyHeroCone(h) {
+  if (!h) return;
+  const ring = document.getElementById('heroConeRing');
+  const refl = document.getElementById('heroConeReflection');
+  if (!ring) return;
+  const photos = Array.isArray(h.photos) ? h.photos.filter(p => p.image) : [];
+  const urls = photos.map(p => driveImg(p.image)).filter(Boolean);
+  if (!urls.length) return;
+  const total = urls.length;
+  ring.style.setProperty('--total', total);
+  ring.innerHTML = urls.map((u, i) =>
+    `<div class="cone-photo" style="--idx:${i};background-image:url('${u}');"></div>`
+  ).join('');
+  if (refl) {
+    refl.style.setProperty('--total', total);
+    refl.innerHTML = urls.map((u, i) =>
+      `<div class="cone-photo" style="--idx:${i};background-image:url('${u}');"></div>`
+    ).join('');
+  }
+}
+
 function applyAll(data) {
   if (data.settings) applySettings(data.settings);
+  if (data.hero)     applyHeroCone(data.hero);
   if (data.blog)     applyBlog(data.blog);
   if (data.faq)      applyFAQ(data.faq);
 }
