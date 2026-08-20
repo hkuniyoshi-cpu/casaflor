@@ -124,13 +124,13 @@ b { font-weight: 600; }
   backface-visibility: hidden;
 }
 @keyframes cone-spin {
-  from { transform: rotateX(64deg) rotateY(0deg); }
-  to   { transform: rotateX(64deg) rotateY(360deg); }
+  from { transform: rotateX(56deg) rotateY(0deg); }
+  to   { transform: rotateX(56deg) rotateY(360deg); }
 }
 .hero-cone__overlay {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(253,248,243,0.55) 0%, rgba(253,248,243,0.2) 20%, transparent 45%, transparent 55%, rgba(253,248,243,0.95) 80%, rgba(253,248,243,1) 100%);
+    linear-gradient(180deg, transparent 0%, transparent 55%, rgba(253,248,243,0.75) 75%, rgba(253,248,243,1) 100%);
 }
 .hero-cone__inner {
   position: relative; z-index: 2;
