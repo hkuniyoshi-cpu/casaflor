@@ -95,6 +95,105 @@ b { font-weight: 600; }
   .nav__cta { padding: 8px 16px; font-size: 11px; }
 }
 
+/* ═══ HERO (Blog compact) ═══ */
+.hero-blog { position: relative; padding: 140px 24px 80px; text-align: center; }
+.hero-blog__inner { max-width: 940px; margin: 0 auto; position: relative; z-index: 2; }
+.hero-blog__eyebrow { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 26px; color: var(--gold-dk); }
+.hero-blog__eyebrow-line { flex: 0 0 60px; height: 1px; background: currentColor; opacity: .6; }
+.hero-blog__eyebrow span { font-family: var(--serif-en); font-size: 12px; letter-spacing: .3em; }
+.hero-blog__title { font-family: var(--serif-jp); font-weight: 500; font-size: clamp(24px, 3.6vw, 42px); line-height: 1.55; letter-spacing: .04em; color: var(--ink); margin-bottom: 24px; }
+.hero-blog__title em { font-family: var(--serif-jp); font-style: normal; color: var(--terracotta); font-weight: 600; }
+.hero-blog__sub { font-size: clamp(14px, 1.6vw, 16px); line-height: 2; color: var(--ink-soft); margin-bottom: 40px; }
+.hero-blog__sub b { color: var(--terracotta-dk); font-weight: 600; }
+.hero-blog__cta { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 46px; }
+.hero-blog__meta { list-style: none; padding: 20px 26px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; background: rgba(255,255,255,.5); border: 1px solid var(--line-gold); border-radius: 8px; backdrop-filter: blur(4px); max-width: 780px; margin: 0 auto; }
+.hero-blog__meta li { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+.hero-blog__meta li b { color: var(--terracotta); font-weight: 600; }
+@media (max-width: 700px) {
+  .hero-blog { padding: 110px 20px 60px; }
+  .hero-blog__title { line-height: 1.6; }
+  .hero-blog__meta { flex-direction: column; gap: 10px; padding: 16px 20px; }
+}
+
+.nav__logo-sub { font-family: var(--serif-en); font-style: italic; font-size: 14px; color: var(--terracotta-dk); margin-left: 4px; font-weight: 400; }
+
+/* ═══ BLOG LATEST — マガジン風カード ═══ */
+.blog-latest { padding-top: 80px; }
+.blog-latest .wall { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; min-height: 240px; }
+.blog-latest .wall.cms-loading { display: flex; align-items: center; justify-content: center; }
+.blog-latest .wall.cms-loading::before { content:'読み込み中...'; color: var(--ink-mute); font-size: 13px; letter-spacing: .2em; }
+.blog-card--journal { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line-gold); border-radius: 8px; overflow: hidden; box-shadow: 0 6px 20px rgba(200,90,51,.10); transition: transform .3s, box-shadow .3s; color: inherit; text-decoration: none; }
+.blog-card--journal:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(200,90,51,.20); }
+.blog-card__img { width: 100%; aspect-ratio: 4/3; background: var(--cream-2); overflow: hidden; }
+.blog-card__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-card__img--noimg { background: linear-gradient(135deg, var(--cream-2), var(--rose-lt)); }
+.blog-card__body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 8px; }
+.blog-card__date { font-family: var(--serif-en); font-size: 12px; color: var(--gold-dk); letter-spacing: .08em; }
+.blog-card__title { font-family: var(--serif-jp); font-size: 15px; line-height: 1.6; font-weight: 500; color: var(--ink); margin: 0; word-break: keep-all; overflow-wrap: normal; }
+.blog-card--journal:hover .blog-card__title { color: var(--terracotta); }
+.blog-card__cta { font-size: 12px; color: var(--terracotta); letter-spacing: .06em; margin-top: 6px; }
+.blog-latest__more { text-align: center; margin-top: 48px; }
+@media (max-width: 900px) { .blog-latest .wall { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) {
+  .blog-latest .wall { grid-template-columns: 1fr; }
+}
+
+/* ═══ CATEGORIES — テーマ選択 ═══ */
+.categories { padding-top: 60px; }
+.category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; }
+.cat-card { display: flex; flex-direction: column; padding: 28px 22px; background: #fff; border: 1px solid var(--line-gold); border-radius: 8px; text-align: center; box-shadow: 0 6px 18px rgba(200,90,51,.08); transition: transform .3s, box-shadow .3s, border-color .3s; color: inherit; text-decoration: none; }
+.cat-card:hover { transform: translateY(-4px); border-color: var(--terracotta); box-shadow: 0 12px 28px rgba(200,90,51,.20); }
+.cat-card__eyebrow { font-family: var(--serif-en); font-size: 10px; letter-spacing: .25em; color: var(--gold-dk); margin-bottom: 8px; }
+.cat-card__icon { font-size: 34px; margin-bottom: 14px; }
+.cat-card__title { font-family: var(--serif-jp); font-size: 15px; font-weight: 600; color: var(--terracotta); margin-bottom: 10px; letter-spacing: .04em; }
+.cat-card__desc { font-size: 12.5px; color: var(--ink-soft); line-height: 1.75; }
+@media (max-width: 900px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .category-grid { grid-template-columns: 1fr; } }
+
+/* ═══ AUTHOR — 監修者（E-E-A-T） ═══ */
+.author__body { display: grid; grid-template-columns: 300px 1fr; gap: 50px; align-items: start; margin-top: 48px; background: #fff; padding: 40px 44px; border: 1px solid var(--line-gold); border-radius: 10px; box-shadow: 0 10px 32px rgba(200,90,51,.10); }
+.author__photo { display: flex; flex-direction: column; align-items: center; }
+.author__photo img { width: 240px; height: 300px; object-fit: cover; object-position: center top; border-radius: 6px; border: 1px solid var(--gold); box-shadow: 0 8px 26px rgba(200,90,51,.20); }
+.author__label { font-family: var(--serif-en); font-size: 11px; letter-spacing: .3em; color: var(--gold-dk); margin-bottom: 8px; }
+.author__name { font-family: var(--serif-jp); font-weight: 600; font-size: 26px; color: var(--terracotta); margin: 0 0 4px; letter-spacing: .04em; }
+.author__name span { font-family: var(--serif-en); font-style: italic; font-size: 14px; color: var(--gold-dk); margin-left: 10px; font-weight: 400; }
+.author__title { font-size: 13px; color: var(--ink-soft); margin-bottom: 20px; }
+.author__bio { font-size: 14.5px; line-height: 2; color: var(--ink-soft); margin-bottom: 24px; }
+.author__bio b { color: var(--terracotta-dk); }
+.author__creds { margin-top: 20px; padding: 18px 22px; background: rgba(200,90,51,.05); border-left: 3px solid var(--terracotta); border-radius: 4px; }
+.author__creds h4 { font-family: var(--serif-jp); font-size: 14px; color: var(--terracotta); margin-bottom: 10px; font-weight: 600; letter-spacing: .04em; }
+.author__creds ul { padding-left: 20px; margin: 0; }
+.author__creds li { font-size: 13.5px; line-height: 1.85; color: var(--ink); margin-bottom: 6px; }
+.author__creds p { font-size: 13.5px; line-height: 1.85; color: var(--ink); margin: 0; }
+@media (max-width: 900px) {
+  .author__body { grid-template-columns: 1fr; gap: 30px; padding: 30px 24px; }
+  .author__photo img { width: 180px; height: 220px; }
+}
+
+/* ═══ FAQ EXPANDED — グループ化 ═══ */
+.faq-expanded { padding-bottom: 100px; }
+.faq-group { margin-top: 36px; }
+.faq-group__title { font-family: var(--serif-jp); font-size: 15px; font-weight: 600; color: var(--terracotta-dk); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--line-gold); letter-spacing: .04em; }
+.faq-group .qa-item { margin-bottom: 10px; }
+.faq-group--cms:empty { display: none; }
+
+/* ═══ COMPANY — 会社情報（NAP） ═══ */
+.company__body { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; margin-top: 48px; }
+.company__info { background: #fff; padding: 36px 34px; border-radius: 10px; border: 1px solid var(--line-gold); box-shadow: 0 8px 26px rgba(200,90,51,.10); }
+.company__dl { display: grid; grid-template-columns: 110px 1fr; gap: 16px 22px; margin: 0; }
+.company__dl dt { font-family: var(--serif-en); font-size: 11px; letter-spacing: .18em; color: var(--gold-dk); padding-top: 4px; }
+.company__dl dd { margin: 0; font-size: 14px; line-height: 1.8; color: var(--ink); }
+.company__dl a { color: var(--terracotta); }
+.company__map { min-height: 420px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line-gold); box-shadow: 0 8px 26px rgba(200,90,51,.10); }
+.company__map iframe { width: 100%; height: 100%; min-height: 420px; border: 0; }
+@media (max-width: 900px) {
+  .company__body { grid-template-columns: 1fr; }
+  .company__dl { grid-template-columns: 90px 1fr; }
+}
+
+/* ═══ CTA — 公式サイトへ ═══ */
+.cta-official { padding: 100px 24px; text-align: center; }
+
 /* ═══ HERO ═══ */
 .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden;
   background: linear-gradient(135deg, #A0451F 0%, #C85A33 40%, #E8734A 100%); }

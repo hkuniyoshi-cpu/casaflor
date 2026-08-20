@@ -1,36 +1,61 @@
-# ============================================================
-# robots.txt — クローラー誘導
-# client-site-all-in-one 用ベース
-# ============================================================
-# 使い方:
-#  1. https://casaflor.search-mania.net 部分を実URLに置換
-#  2. AI学習許可方針が NG なら GPTBot / ClaudeBot / PerplexityBot を Disallow に変更
-# ============================================================
+# robots.txt for Casa Flor Blog
+# https://casaflor.search-mania.net/
 
+# All standard crawlers
 User-agent: *
 Allow: /
+Disallow: /_gas-refs/
+Disallow: /gas/
 
-# AI クローラー（学習・検索インデックス用）— デフォルトは許可
+# ─── AI クローラー（AIO対策・明示許可） ───
+# 生成AIの学習および回答生成に本サイトのコンテンツを活用してもらうことで、
+# ChatGPT/Claude/Perplexity/Google SGE 等での引用機会を最大化する。
+
+# OpenAI GPTBot (ChatGPT)
 User-agent: GPTBot
 Allow: /
 
-User-agent: ChatGPT-User
+# OpenAI OAI-SearchBot (ChatGPT検索)
+User-agent: OAI-SearchBot
 Allow: /
 
+# Anthropic ClaudeBot
 User-agent: ClaudeBot
 Allow: /
 
-User-agent: Claude-Web
+User-agent: anthropic-ai
 Allow: /
 
+# Perplexity
 User-agent: PerplexityBot
 Allow: /
 
+# Google Bard / Gemini / SGE
 User-agent: Google-Extended
+Allow: /
+
+# Google Bing
+User-agent: Bingbot
+Allow: /
+
+# Common Crawl（多くのLLMが学習に利用）
+User-agent: CCBot
+Allow: /
+
+# Amazonbot
+User-agent: Amazonbot
+Allow: /
+
+# Apple Applebot
+User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
 
-# サイトマップ
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# ─── サイトマップ ───
 Sitemap: https://casaflor.search-mania.net/sitemap.xml
