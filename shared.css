@@ -96,12 +96,12 @@ b { font-weight: 600; }
 }
 
 /* ═══ HERO — 巨大シリンダー・フォトカルーセル（参考: jyuutaku-family.co.jp） ═══ */
-.hero-cone { position: relative; min-height: 820px; overflow: hidden; isolation: isolate; padding: 0; max-width: 100vw; }
+.hero-cone { position: relative; min-height: 900px; overflow: hidden; isolation: isolate; padding: 0; max-width: 100vw; }
 .hero-cone__stage {
-  position: absolute; top: -160px; left: 50%; transform: translateX(-50%);
-  width: min(1400px, 100vw); height: 620px;
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: max(1800px, 150vw); height: 700px;
   display: flex; align-items: center; justify-content: center;
-  perspective: 2200px; perspective-origin: 50% 100%;
+  perspective: 2600px; perspective-origin: 50% 100%;
   pointer-events: none; z-index: 0;
 }
 .hero-cone__ring {
@@ -112,30 +112,30 @@ b { font-weight: 600; }
 }
 .hero-cone__reflection { display: none; }
 .cone-photo {
-  --idx: 0; --total: 7; --radius: 400px;
+  --idx: 0; --total: 12; --radius: 780px;
   position: absolute;
-  width: 360px; height: 240px;
-  top: -120px; left: -180px;
+  width: 380px; height: 250px;
+  top: -125px; left: -190px;
   background-size: cover; background-position: center;
   border-radius: 4px;
-  box-shadow: 0 16px 40px rgba(43,38,34,.28);
+  box-shadow: 0 20px 40px rgba(43,38,34,.25);
   transform: rotateY(calc(var(--idx) * (360deg / var(--total)))) translateZ(var(--radius));
   will-change: transform;
   backface-visibility: hidden;
 }
 @keyframes cone-spin {
-  from { transform: rotateX(56deg) rotateY(0deg); }
-  to   { transform: rotateX(56deg) rotateY(360deg); }
+  from { transform: rotateX(62deg) rotateY(0deg); }
+  to   { transform: rotateX(62deg) rotateY(360deg); }
 }
 .hero-cone__overlay {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
-    linear-gradient(180deg, transparent 0%, transparent 55%, rgba(253,248,243,0.75) 75%, rgba(253,248,243,1) 100%);
+    linear-gradient(180deg, transparent 0%, transparent 45%, rgba(253,248,243,0.8) 62%, rgba(253,248,243,1) 78%);
 }
 .hero-cone__inner {
   position: relative; z-index: 2;
   max-width: 1200px; margin: 0 auto;
-  padding: 480px 40px 80px 40px;
+  padding: 520px 40px 80px 40px;
   text-align: left;
 }
 .hero-cone__eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; color: var(--gold-dk); }

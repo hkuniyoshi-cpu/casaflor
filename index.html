@@ -725,25 +725,25 @@ function applyHeroCone(h) {
   const photos = Array.isArray(h.photos) ? h.photos.filter(p => p.image) : [];
   const urls = photos.map(p => driveImg(p.image)).filter(Boolean);
   if (!urls.length) return;
-  const total = urls.length;
-  ring.style.setProperty('--total', total);
-  // 写真幅と枚数から円周を割り出し、途切れないタイトなリング半径を計算
-  // radius = (photoWidth + gap) * total / (2π)
-  function computeRadius() {
+  // ターゲット半径を決め、写真を繰り返してタイトな円を作る
+  function render() {
     var w = window.innerWidth;
-    var photoW, gap;
-    if (w <= 700) { photoW = 240; gap = 8; }
-    else if (w <= 1024) { photoW = 300; gap = 10; }
-    else { photoW = 360; gap = 12; }
-    var circumference = (photoW + gap) * total;
-    var r = Math.round(circumference / (2 * Math.PI));
-    ring.style.setProperty('--radius', r + 'px');
+    var photoW, gap, targetR;
+    if (w <= 700)      { photoW = 260; gap = 6;  targetR = 420; }
+    else if (w <= 1024){ photoW = 340; gap = 10; targetR = 620; }
+    else               { photoW = 380; gap = 12; targetR = 780; }
+    var needed = Math.max(urls.length, Math.ceil((2 * Math.PI * targetR) / (photoW + gap)));
+    var radius = Math.round(((photoW + gap) * needed) / (2 * Math.PI));
+    ring.style.setProperty('--total', needed);
+    ring.style.setProperty('--radius', radius + 'px');
+    var items = [];
+    for (var i = 0; i < needed; i++) items.push(urls[i % urls.length]);
+    ring.innerHTML = items.map(function(u, i) {
+      return '<div class="cone-photo" style="--idx:' + i + ';background-image:url(\'' + u + '\');"></div>';
+    }).join('');
   }
-  computeRadius();
-  window.addEventListener('resize', function() { clearTimeout(window._coneRT); window._coneRT = setTimeout(computeRadius, 120); });
-  ring.innerHTML = urls.map((u, i) =>
-    `<div class="cone-photo" style="--idx:${i};background-image:url('${u}');"></div>`
-  ).join('');
+  render();
+  window.addEventListener('resize', function() { clearTimeout(window._coneRT); window._coneRT = setTimeout(render, 150); });
 }
 
 function applyAll(data) {
