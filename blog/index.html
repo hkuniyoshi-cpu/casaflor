@@ -181,6 +181,14 @@ header a{
 .post-item__cta { font-size: 12px; color: #C85A33; letter-spacing: .06em; margin-top: 4px; }
 @media (max-width: 900px) { .post-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
 @media (max-width: 600px) { .post-grid { grid-template-columns: 1fr; } }
+
+/* === カテゴリタブ === */
+.cat-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0 auto 30px; padding: 0 8px; max-width: 1000px; }
+.cat-tab { display: inline-block; padding: 8px 16px; background: #fff; border: 1px solid rgba(201,168,76,.35); border-radius: 100px; font-size: 12.5px; color: #6B5D50; text-decoration: none; transition: all .25s; letter-spacing: .04em; }
+.cat-tab:hover { background: rgba(200,90,51,.08); color: #C85A33; border-color: #C85A33; }
+.cat-tab--active { background: #C85A33; color: #fff; border-color: #C85A33; font-weight: 600; box-shadow: 0 4px 12px rgba(200,90,51,.25); }
+.cat-tab--active:hover { background: #A0451F; color: #fff; }
+@media (max-width: 600px) { .cat-tab { padding: 7px 12px; font-size: 12px; } }
 </style>
 </head>
 <body>
@@ -379,28 +387,62 @@ function render(item) {
     '</div>';
 }
 
+/* カテゴリ slug → 日本語ラベルマップ */
+var CAT_MAP = {
+  case: '施工事例',
+  tile: 'タイル',
+  waterproof: '防水',
+  okinawa: '沖縄気候',
+  hotel: 'ホテル',
+  maintenance: 'メンテナンス',
+  women: '女性目線',
+  trouble: 'トラブル'
+};
+
 /* 記事一覧モードのレンダリング */
 function renderList(items) {
   const root = document.getElementById('root');
-  const list = (items || []).filter(function(b) { return b && (b.body || b.title); });
-  document.title = 'すべての記事一覧 | ' + STORE_NAME;
-  var descText = STORE_NAME + 'が発信する内外装・タイル・防水・沖縄気候対応など、全' + list.length + '件の記事一覧。';
-  updateMeta('すべての記事一覧', descText, SITE_URL + '/ogp.png');
+  var allList = (items || []).filter(function(b) { return b && (b.body || b.title); });
+  var catParam = new URLSearchParams(location.search).get('cat');
+  var filterCat = catParam ? (CAT_MAP[catParam] || catParam) : null;
+  var list = filterCat
+    ? allList.filter(function(b) { return (b.category || '').indexOf(filterCat) !== -1; })
+    : allList;
+  var pageTitle = filterCat ? filterCat + ' の記事一覧' : 'すべての記事一覧';
+  document.title = pageTitle + ' | ' + STORE_NAME;
+  var descText = STORE_NAME + 'が発信する' + (filterCat ? filterCat + 'カテゴリの記事、全' + list.length + '件。' : '内外装・タイル・防水・沖縄気候対応など、全' + list.length + '件の記事一覧。');
+  updateMeta(pageTitle, descText, SITE_URL + '/ogp.png');
+  // カテゴリタブ生成（現在アクティブなカテゴリを強調）
+  function buildCatTabs() {
+    var tabs = '<div class="cat-tabs">' +
+      '<a href="/blog/" class="cat-tab' + (filterCat ? '' : ' cat-tab--active') + '">すべて (' + allList.length + ')</a>';
+    Object.keys(CAT_MAP).forEach(function(slug) {
+      var label = CAT_MAP[slug];
+      var count = allList.filter(function(b) { return (b.category || '').indexOf(label) !== -1; }).length;
+      tabs += '<a href="/blog/?cat=' + slug + '" class="cat-tab' + (filterCat === label ? ' cat-tab--active' : '') + '">' + label + ' (' + count + ')</a>';
+    });
+    tabs += '</div>';
+    return tabs;
+  }
+
   if (!list.length) {
     root.innerHTML =
-      '<div class="not-found">' +
-        '<h1>記事一覧</h1>' +
-        '<p>まだ記事がありません。</p>' +
-        '<a class="back-btn" href="' + esc(SITE_URL) + '/">← トップへ戻る</a>' +
-      '</div>';
+      '<div class="list-head">' +
+        '<div class="list-eyebrow">JOURNAL — ARCHIVE</div>' +
+        '<h1 class="list-title">' + esc(pageTitle) + '</h1>' +
+        '<p class="list-sub">まだ記事がありません。</p>' +
+      '</div>' +
+      buildCatTabs() +
+      '<div class="back-wrap"><a class="back-btn" href="' + esc(SITE_URL) + '/">← トップへ戻る</a></div>';
     return;
   }
   root.innerHTML =
     '<div class="list-head">' +
       '<div class="list-eyebrow">JOURNAL — ARCHIVE</div>' +
-      '<h1 class="list-title">すべての記事</h1>' +
+      '<h1 class="list-title">' + esc(pageTitle) + '</h1>' +
       '<p class="list-sub">全 ' + list.length + ' 件（新しい順）</p>' +
     '</div>' +
+    buildCatTabs() +
     '<div class="post-grid">' +
       list.map(function(post, i) {
         var img = driveImg(post.image);
