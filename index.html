@@ -721,22 +721,29 @@ function applyFAQ(items) {
 function applyHeroCone(h) {
   if (!h) return;
   const ring = document.getElementById('heroConeRing');
-  const refl = document.getElementById('heroConeReflection');
   if (!ring) return;
   const photos = Array.isArray(h.photos) ? h.photos.filter(p => p.image) : [];
   const urls = photos.map(p => driveImg(p.image)).filter(Boolean);
   if (!urls.length) return;
   const total = urls.length;
   ring.style.setProperty('--total', total);
+  // 写真幅と枚数から円周を割り出し、途切れないタイトなリング半径を計算
+  // radius = (photoWidth + gap) * total / (2π)
+  function computeRadius() {
+    var w = window.innerWidth;
+    var photoW, gap;
+    if (w <= 700) { photoW = 240; gap = 8; }
+    else if (w <= 1024) { photoW = 300; gap = 10; }
+    else { photoW = 360; gap = 12; }
+    var circumference = (photoW + gap) * total;
+    var r = Math.round(circumference / (2 * Math.PI));
+    ring.style.setProperty('--radius', r + 'px');
+  }
+  computeRadius();
+  window.addEventListener('resize', function() { clearTimeout(window._coneRT); window._coneRT = setTimeout(computeRadius, 120); });
   ring.innerHTML = urls.map((u, i) =>
     `<div class="cone-photo" style="--idx:${i};background-image:url('${u}');"></div>`
   ).join('');
-  if (refl) {
-    refl.style.setProperty('--total', total);
-    refl.innerHTML = urls.map((u, i) =>
-      `<div class="cone-photo" style="--idx:${i};background-image:url('${u}');"></div>`
-    ).join('');
-  }
 }
 
 function applyAll(data) {
