@@ -265,20 +265,27 @@ function getN() {
    ⚠️ slug.indexOf(d) === 0 は同日別記事と誤マッチするため使わない */
 function findBySlug(items, slug, n) {
   if (!Array.isArray(items)) return null;
-  if (n >= 0 && n < items.length && items[n]) return items[n];
-  if (!slug) return null;
-  return items.find(function(b) {
-    if (!b) return false;
-    if (b.url && (
-      b.url.indexOf('/blog/' + slug + '/') !== -1 ||
-      b.url.indexOf('/blog/' + slug) !== -1
-    )) return true;
-    if (b.date) {
+  // ① スラッグでURLマッチ（最優先・確実）
+  if (slug) {
+    var bySlug = items.find(function(b) {
+      if (!b || !b.url) return false;
+      return b.url.indexOf('/blog/' + slug + '/') !== -1
+          || b.url.indexOf('/blog/' + slug) !== -1
+          || b.url === slug
+          || b.url.slice(-slug.length - 1) === slug + '/';
+    });
+    if (bySlug) return bySlug;
+    // ② 日付完全一致（旧URL対応）
+    var byDate = items.find(function(b) {
+      if (!b || !b.date) return false;
       var d = String(b.date).replace(/[\/\.]/g, '-').replace(/[^0-9-]/g, '');
-      if (d === slug) return true;
-    }
-    return false;
-  }) || null;
+      return d === slug;
+    });
+    if (byDate) return byDate;
+  }
+  // ③ n（配列インデックス）にフォールバック（同日重複の tiebreaker）
+  if (n >= 0 && n < items.length && items[n]) return items[n];
+  return null;
 }
 
 /* メタタグ動的更新（OGP・description・canonical） */
