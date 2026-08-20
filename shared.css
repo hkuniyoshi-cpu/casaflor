@@ -160,15 +160,28 @@ b { font-weight: 600; }
   .hero-cone__inner { padding-top: 420px; }
 }
 @media (max-width: 700px) {
-  .hero-cone { min-height: 700px; }
-  .hero-cone__stage { top: -70px; height: 420px; perspective: 1600px; }
-  .cone-photo { width: 240px; height: 160px; top: -80px; left: -120px; --radius: 440px; }
-  @keyframes cone-spin {
-    from { transform: rotateX(56deg) rotateY(0deg); }
-    to   { transform: rotateX(56deg) rotateY(360deg); }
+  /* モバイル：縦積み — テキストが上、フォトリングが下（参考サイトと同じ順序） */
+  .hero-cone { min-height: auto; padding: 100px 24px 60px; display: flex; flex-direction: column; }
+  .hero-cone__stage {
+    position: relative; order: 2;
+    top: 0; height: 340px; margin: 30px -24px 0;
+    perspective: 1400px; perspective-origin: 50% 50%;
   }
-  .hero-cone__inner { padding: 340px 24px 60px 24px; }
-  .hero-cone__meta { gap: 12px; padding: 14px 18px; flex-direction: column; }
+  .cone-photo { width: 240px; height: 160px; top: -80px; left: -120px; --radius: 400px; }
+  @keyframes cone-spin {
+    from { transform: rotateX(58deg) rotateY(0deg); }
+    to   { transform: rotateX(58deg) rotateY(360deg); }
+  }
+  .hero-cone__overlay {
+    background:
+      linear-gradient(180deg, transparent 0%, transparent 60%, rgba(253,248,243,0.85) 85%, rgba(253,248,243,1) 100%);
+  }
+  .hero-cone__inner { order: 1; padding: 0; text-align: left; max-width: 100%; }
+  .hero-cone__title { font-size: clamp(28px, 7vw, 40px); }
+  .hero-cone__sub { font-size: 14px; padding: 0; background: transparent; }
+  .hero-cone__meta { gap: 10px; padding: 14px 18px; flex-direction: column; max-width: 100%; }
+  .hero-cone__cta { flex-direction: column; }
+  .hero-cone__cta .btn { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-cone__ring { animation-duration: 180s; }
