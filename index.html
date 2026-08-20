@@ -676,7 +676,12 @@ function applyBlog(items) {
       rawTitle = firstSentence.trim();
     }
     if (!rawTitle && b.date) rawTitle = `${fmtDate(b.date)} の投稿`;
-    const shortTitle = rawTitle.length > 60 ? rawTitle.slice(0, 60) + '…' : rawTitle;
+    // タイトル冒頭の絵文字・ハッシュタグを除去してクリーンに
+    rawTitle = rawTitle
+      .replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F000}-\u{1F2FF}\s]+/u, '')
+      .replace(/^#\s*/, '')
+      .trim();
+    const shortTitle = rawTitle;  // 表示側で line-clamp するのでJS切り詰めは不要
     const imgUrl = driveImg(b.image);
     const slugMatch = (b.url || '').match(/\/blog\/([^\/\?#]+)/);
     const postSlug  = slugMatch ? slugMatch[1] : (b.date || '');
