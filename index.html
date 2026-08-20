@@ -674,7 +674,7 @@ function applyBlog(items) {
   if (!items || !items.length) return;
   const valid = items.filter(b => b.body || b.title);
   if (!valid.length) return;
-  wall.innerHTML = valid.slice(0, 8).map((b, i) => {
+  wall.innerHTML = valid.slice(0, 4).map((b, i) => {
     let rawTitle = (b.title || '').trim();
     if (!rawTitle && b.body) {
       const firstSentence = String(b.body).split(/[。\n]/)[0] || '';
