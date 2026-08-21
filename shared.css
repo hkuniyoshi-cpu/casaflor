@@ -342,8 +342,29 @@ b { font-weight: 600; }
 .blog-card__cta { font-size: 12px; color: var(--terracotta); letter-spacing: .06em; margin-top: 6px; }
 .blog-latest__more { text-align: center; margin-top: 48px; }
 @media (max-width: 900px) { .blog-latest .wall { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) {
-  .blog-latest .wall { grid-template-columns: 1fr; }
+@media (max-width: 700px) {
+  /* モバイル：横スクロールカルーセル */
+  .blog-latest .wall {
+    display: flex;
+    grid-template-columns: unset;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding: 0 max(20px, calc((100vw - 82vw) / 2)) 20px;
+    scrollbar-width: none;
+    scroll-padding: 0 max(20px, calc((100vw - 82vw) / 2));
+    margin: 48px -20px 0;
+    min-height: auto;
+  }
+  .blog-latest .wall::-webkit-scrollbar { display: none; }
+  .blog-latest .wall.cms-loading { display: flex; }
+  .blog-card--journal {
+    flex: 0 0 82vw;
+    max-width: 340px;
+    scroll-snap-align: center;
+    min-width: 0;
+  }
 }
 
 /* ═══ CATEGORIES — テーマ選択 ═══ */
@@ -356,7 +377,28 @@ b { font-weight: 600; }
 .cat-card__title { font-family: var(--serif-jp); font-size: 15px; font-weight: 600; color: var(--terracotta); margin-bottom: 10px; letter-spacing: .04em; }
 .cat-card__desc { font-size: 12.5px; color: var(--ink-soft); line-height: 1.75; }
 @media (max-width: 900px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 500px) { .category-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) {
+  /* モバイル：横スクロールカルーセル */
+  .category-grid {
+    display: flex;
+    grid-template-columns: unset;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding: 0 max(20px, calc((100vw - 78vw) / 2)) 20px;
+    scrollbar-width: none;
+    scroll-padding: 0 max(20px, calc((100vw - 78vw) / 2));
+    margin: 48px -20px 0;
+  }
+  .category-grid::-webkit-scrollbar { display: none; }
+  .cat-card {
+    flex: 0 0 78vw;
+    max-width: 320px;
+    scroll-snap-align: center;
+    min-width: 0;
+  }
+}
 
 /* ═══ AUTHOR — 監修者（E-E-A-T） ═══ */
 .author__body { display: grid; grid-template-columns: 300px 1fr; gap: 50px; align-items: start; margin-top: 48px; background: #fff; padding: 40px 44px; border: 1px solid var(--line-gold); border-radius: 10px; box-shadow: 0 10px 32px rgba(200,90,51,.10); }
