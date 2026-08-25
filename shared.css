@@ -520,9 +520,15 @@ b { font-weight: 600; }
 }
 
 /* ═══ Scroll Reveal & 3D Motion ═══ */
-[data-reveal] { opacity: 0; transform: translate3d(0, 34px, 0); transition: opacity 1s cubic-bezier(.22,1,.36,1), transform 1s cubic-bezier(.22,1,.36,1); transition-delay: var(--reveal-delay, 0ms); will-change: opacity, transform; }
-[data-reveal="up-slow"] { transform: translate3d(0, 50px, 0); transition-duration: 1.4s; }
-[data-reveal].is-revealed { opacity: 1; transform: translate3d(0, 0, 0); }
+/* jyuutaku-family.co.jp 参考：cubic-bezier(0.165, 0.84, 0.44, 1) 1.4s */
+[data-reveal] { opacity: 0; transform: translate3d(0, 20px, 0); transition-property: opacity, transform, filter; transition-duration: 1.4s; transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); transition-delay: var(--reveal-delay, 0ms); will-change: opacity, transform; }
+[data-reveal="up"]      { transform: translate3d(0, 20px, 0); }
+[data-reveal="up-slow"] { transform: translate3d(0, 40px, 0); transition-duration: 1.6s; }
+[data-reveal="blur"]    { filter: blur(14px) brightness(1.15); transform: none; }
+[data-reveal="zoom"]    { transform: scale(0.94); }
+[data-reveal="left"]    { transform: translate3d(-40px, 0, 0); }
+[data-reveal="right"]   { transform: translate3d(40px, 0, 0); }
+[data-reveal].is-revealed { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0) brightness(1); }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1; transform: none; transition: none; }
   [data-scroll-parallax], [data-scroll-tilt] { transform: none !important; }

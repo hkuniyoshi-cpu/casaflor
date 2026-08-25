@@ -877,19 +877,39 @@ loadCMS();
   onScroll();
 })();
 
-/* ═══ Scroll Reveal ═══ */
+/* ═══ Scroll Reveal（jyuutaku-family 参考：fade-up + blur + zoom + stagger） ═══ */
 (function() {
+  // セクション見出し系はふわっと上昇
   document.querySelectorAll('.section, .cta, .hero-blog').forEach(function(sec) {
     const label = sec.querySelector('.editorial-label');
-    if (label) label.setAttribute('data-reveal', 'up');
+    if (label && !label.hasAttribute('data-reveal')) label.setAttribute('data-reveal', 'up');
     const title = sec.querySelector('.section-title, .hero-blog__title');
-    if (title) title.setAttribute('data-reveal', 'up-slow');
+    if (title && !title.hasAttribute('data-reveal')) title.setAttribute('data-reveal', 'up-slow');
     const lead = sec.querySelector('.section-lead, .hero-blog__sub');
-    if (lead) lead.setAttribute('data-reveal', 'up-slow');
+    if (lead && !lead.hasAttribute('data-reveal')) lead.setAttribute('data-reveal', 'up-slow');
   });
-  document.querySelectorAll('.cat-card, .qa-item, .faq-group, .blog-card--journal').forEach(function(el, i) {
-    el.setAttribute('data-reveal', 'up');
-    el.style.setProperty('--reveal-delay', (i % 6 * 60) + 'ms');
+  // カード群：グリッド内の位置でスタガー付与
+  function stagger(selector, mode) {
+    document.querySelectorAll(selector).forEach(function(el, i) {
+      if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', mode || 'up');
+      const parent = el.parentElement;
+      // 同じ親内での順序でディレイ
+      const siblingIndex = parent ? [...parent.children].filter(c => c.matches(selector)).indexOf(el) : i;
+      el.style.setProperty('--reveal-delay', (Math.min(siblingIndex, 8) * 80) + 'ms');
+    });
+  }
+  stagger('.cat-card', 'up');
+  stagger('.blog-card--journal', 'up');
+  stagger('.faq-group', 'up');
+  stagger('.qa-item', 'up');
+  // 画像・監修者写真・ヒーロー装飾は blur→sharp
+  document.querySelectorAll('.author-portrait, .company__img, .hero-blog__deco img, .cta__deco img').forEach(function(el) {
+    if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'blur');
+  });
+  // CTA ボタン群は zoom
+  document.querySelectorAll('.cta .btn, .cta__inner .btn, .section-cta .btn').forEach(function(el, i) {
+    if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'zoom');
+    el.style.setProperty('--reveal-delay', (i % 3 * 100) + 'ms');
   });
   const io = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
@@ -898,7 +918,7 @@ loadCMS();
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('[data-reveal]').forEach(function(el) { io.observe(el); });
 })();
 
