@@ -752,7 +752,7 @@ a.blog-card { color: inherit; text-decoration: none; display: block; }
 .qa-item { background: #fff; border: 1px solid var(--line-gold); border-radius: 6px; overflow: hidden; }
 .qa-item summary { list-style: none; cursor: pointer; padding: 20px 24px; display: flex; align-items: center; gap: 12px; font-family: var(--serif-jp); font-size: 15px; font-weight: 500; color: var(--ink); }
 .qa-item summary::-webkit-details-marker { display: none; }
-.qa-item__q { font-family: var(--serif-en); font-style: italic; color: var(--terracotta); font-weight: 600; }
+.qa-item__q { font-family: var(--serif-en); font-style: italic; color: var(--terracotta); font-weight: 700; display: inline-block; min-width: 2.4em; margin-right: 6px; }
 .qa-item__arrow { margin-left: auto; font-family: var(--serif-en); color: var(--gold-dk); font-size: 18px; transition: transform .3s; }
 .qa-item[open] .qa-item__arrow { transform: rotate(45deg); }
 .qa-item__a { padding: 4px 24px 22px 46px; font-size: 14px; line-height: 1.9; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 18px; }

@@ -807,6 +807,13 @@ function applyAll(data) {
   if (data.settings) applySettings(data.settings);
   if (data.blog)     applyBlog(data.blog);
   if (data.faq)      applyFAQ(data.faq);
+  numberFAQ();
+}
+
+/* FAQ の Q. を連番化（Q1, Q2, ...）— ハードコード分＋CMS追加分の全体で通し番号 */
+function numberFAQ() {
+  const nodes = document.querySelectorAll('.faq .qa-item .qa-item__q');
+  nodes.forEach((el, i) => { el.textContent = 'Q' + (i + 1); });
 }
 
 /* ═══ CMS ロード ═══ */
@@ -836,6 +843,7 @@ async function loadCMS() {
     _hideLoader();
   }
 }
+numberFAQ();
 loadCMS();
 
 /* ═══ 沖縄ヒーロー背景 スクロールパララックス ═══ */
