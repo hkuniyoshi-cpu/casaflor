@@ -747,7 +747,8 @@ function applyBlog(items) {
     const imgUrl = driveImg(b.image);
     const slugMatch = (b.url || '').match(/\/blog\/([^\/\?#]+)/);
     const postSlug  = slugMatch ? slugMatch[1] : (b.date || '');
-    const href = postSlug ? `/blog/?post=${postSlug}&n=${i}` : null;
+    // パス型URL（SSR対応）: /blog/{slug}/ 形式。functions/blog/[slug].js が初期HTMLを返す
+    const href = postSlug ? `/blog/${postSlug}/` : null;
     const tagOpen  = href ? `<a href="${href}" class="e blog-card blog-card--journal">` : `<article class="e blog-card blog-card--journal">`;
     const tagClose = href ? '</a>' : '</article>';
     return `${tagOpen}
