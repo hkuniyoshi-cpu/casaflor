@@ -221,6 +221,14 @@
       <li><a href="#faq">よくあるご質問</a></li>
       <li><a href="#company">会社情報</a></li>
     </ul>
+    <div class="nav__sns">
+      <a href="https://www.instagram.com/yayoi_casaflor" id="snsInstagram" class="nav__sns-btn" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" id="snsFacebook" class="nav__sns-btn" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 9.5V7.8c0-.6.2-1 1-1H16V4h-2.5c-2.4 0-3.5 1.5-3.5 3.4v2.1H8V12h2v8h3v-8h2.2l.3-2.5z"/></svg>
+      </a>
+    </div>
     <a href="#" id="ctaOfficial" class="nav__cta" target="_blank" rel="noopener">公式サイトへ →</a>
     <button class="nav__toggle" id="navToggle" aria-label="メニュー"><span></span><span></span><span></span></button>
   </div>
@@ -582,13 +590,19 @@
         </div>
       </div>
       <div class="footer__col">
-        <div class="footer__col-title">EXPLORE</div>
+        <div class="footer__col-title">SOCIAL</div>
         <div class="footer__col-body">
-          <a href="#blog">最新記事</a><br>
-          <a href="#categories">カテゴリー</a><br>
-          <a href="#author">監修者</a><br>
-          <a href="#faq">よくあるご質問</a><br>
-          <a href="#" id="ctaOfficial5" target="_blank" rel="noopener">公式サイトへ →</a>
+          <div class="footer__sns">
+            <a href="https://www.instagram.com/yayoi_casaflor" id="snsInstagramFoot" class="footer__sns-btn" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              <span>Instagram</span>
+            </a>
+            <a href="#" id="snsFacebookFoot" class="footer__sns-btn" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 9.5V7.8c0-.6.2-1 1-1H16V4h-2.5c-2.4 0-3.5 1.5-3.5 3.4v2.1H8V12h2v8h3v-8h2.2l.3-2.5z"/></svg>
+              <span>Facebook</span>
+            </a>
+          </div>
+          <a href="#" id="ctaOfficial5" target="_blank" rel="noopener" class="footer__official-link">公式サイトへ →</a>
         </div>
       </div>
     </div>
@@ -686,6 +700,15 @@ function applySettings(s) {
       const el = document.getElementById(id);
       if (el) el.href = s.officialUrl;
     });
+  }
+  // SNS URL 反映（Sheets settings で「InstagramURL」「FacebookURL」を編集可能）
+  const igUrl = s.instagramUrl || s['InstagramURL'] || s['Instagram URL'] || '';
+  const fbUrl = s.facebookUrl  || s['FacebookURL']  || s['Facebook URL']  || '';
+  if (igUrl) ['snsInstagram','snsInstagramFoot'].forEach(id => { const el = document.getElementById(id); if (el) el.href = igUrl; });
+  if (fbUrl) ['snsFacebook','snsFacebookFoot'].forEach(id => { const el = document.getElementById(id); if (el) el.href = fbUrl; });
+  // Facebook が未設定なら非表示
+  if (!fbUrl || fbUrl === '#') {
+    ['snsFacebook','snsFacebookFoot'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
   }
   bindCmsSlots('settings', s);
 }
