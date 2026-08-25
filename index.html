@@ -812,7 +812,8 @@ function applyAll(data) {
 
 /* FAQ の Q. を連番化（Q1, Q2, ...）— ハードコード分＋CMS追加分の全体で通し番号 */
 function numberFAQ() {
-  const nodes = document.querySelectorAll('.faq .qa-item .qa-item__q');
+  const scope = document.getElementById('faq') || document;
+  const nodes = scope.querySelectorAll('.qa-item .qa-item__q');
   nodes.forEach((el, i) => { el.textContent = 'Q' + (i + 1); });
 }
 
