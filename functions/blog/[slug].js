@@ -1,5 +1,6 @@
 // Cloudflare Pages Function — GET /blog/{slug}/
-// GAS から記事1件取得して full HTML を SSR。initial HTML に本文+BlogPosting JSON-LD 完備
+// GAS ?blog_all=1 から全記事取得→スラッグで該当記事を絞り込んで SSR
+// initial HTML に本文 + BlogPosting + BreadcrumbList JSON-LD 完備
 
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxn5fJlnt9smKFwgYlp25Zohq4k815Pkjl_edbAki8nDMOiFC1rXLbH4Etklg9tn9lrMg/exec';
 const SITE_URL = 'https://casaflor.search-mania.net';
@@ -11,18 +12,16 @@ export async function onRequest(context) {
   if (!slug) return _notFound();
 
   try {
-    const res = await fetch(`${GAS_URL}?post_slug=${encodeURIComponent(slug)}`, {
-      redirect: 'follow',
-      headers: { 'accept': 'application/json' },
-    });
+    const res = await fetch(`${GAS_URL}?blog_all=1`, { redirect: 'follow' });
     if (!res.ok) return _fallbackToSpa(slug);
     const data = await res.json();
-    const post = data && data.post;
+    const blog = Array.isArray(data && data.blog) ? data.blog : [];
+    const post = _findBySlug(blog, slug);
     if (!post) return _renderNotFound(slug);
     return new Response(_renderPost(post, slug), {
       headers: {
         'content-type': 'text/html; charset=utf-8',
-        'cache-control': 'public, max-age=900, s-maxage=900', // edge cache 15分
+        'cache-control': 'public, max-age=900, s-maxage=900',
       },
     });
   } catch (err) {
@@ -30,7 +29,30 @@ export async function onRequest(context) {
   }
 }
 
-// GAS 失敗時は既存の JS 版 blog/index.html にフォールバック
+function _extractSlug(url, date) {
+  const s = String(url || '').trim();
+  if (s) {
+    const m = s.match(/\/blog\/([^\/\?#]+)/);
+    if (m && m[1]) return m[1];
+    const bare = s.replace(/^\/+/, '').replace(/\/+$/, '').replace(/^blog\//, '');
+    if (bare && !/^https?:/i.test(bare)) return bare;
+  }
+  return date ? String(date) : '';
+}
+
+function _findBySlug(blog, slug) {
+  const target = decodeURIComponent(String(slug || '')).trim();
+  if (!target) return null;
+  for (const b of blog) {
+    if (_extractSlug(b.url, b.date) === target) return b;
+  }
+  // フォールバック: date 一致
+  for (const b of blog) {
+    if (b.date === target) return b;
+  }
+  return null;
+}
+
 function _fallbackToSpa(slug) {
   return Response.redirect(`${SITE_URL}/blog/?post=${encodeURIComponent(slug)}`, 302);
 }
@@ -65,7 +87,6 @@ function _extractTitle(post) {
   let t = String(post.title || '').trim();
   if (!t && post.body) t = String(post.body).split(/[。\n]/)[0].trim();
   if (!t && post.date) t = `${_fmtDate(post.date)} の投稿`;
-  // 冒頭絵文字・ハッシュタグ除去
   t = t.replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F000}-\u{1F2FF}\s]+/u, '')
        .replace(/^#\s*/, '').trim();
   return t || 'Casa Flor ブログ';
@@ -93,11 +114,7 @@ function _renderPost(post, slug) {
     'headline': title,
     'description': desc,
     'image': ogImg,
-    'author': {
-      '@type': 'Person',
-      'name': AUTHOR_NAME,
-      'url': SITE_URL + '/#author-yayoi',
-    },
+    'author': { '@type': 'Person', 'name': AUTHOR_NAME, 'url': SITE_URL + '/#author-yayoi' },
     'publisher': {
       '@type': 'Organization',
       'name': SITE_NAME,
