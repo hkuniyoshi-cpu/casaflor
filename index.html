@@ -749,8 +749,13 @@ function applyBlog(items) {
       .trim();
     const shortTitle = rawTitle;  // 表示側で line-clamp するのでJS切り詰めは不要
     const imgUrl = driveImg(b.image);
-    const slugMatch = (b.url || '').match(/\/blog\/([^\/\?#]+)/);
-    const postSlug  = slugMatch ? slugMatch[1] : (b.date || '');
+    // Sheets F列は "/blog/SLUG/" or "SLUG/" or "SLUG" の3形態を受け付ける
+    const rawUrl = (b.url || '').trim();
+    let postSlug = '';
+    const m = rawUrl.match(/\/blog\/([^\/\?#]+)/);
+    if (m) postSlug = m[1];
+    else if (rawUrl && !/^https?:/i.test(rawUrl)) postSlug = rawUrl.replace(/^\/+/, '').replace(/\/+$/, '').replace(/^blog\//, '');
+    if (!postSlug) postSlug = b.date || '';
     // パス型URL（SSR対応）: /blog/{slug}/ 形式。functions/blog/[slug].js が初期HTMLを返す
     const href = postSlug ? `/blog/${postSlug}/` : null;
     const tagOpen  = href ? `<a href="${href}" class="e blog-card blog-card--journal">` : `<article class="e blog-card blog-card--journal">`;
