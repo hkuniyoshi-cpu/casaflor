@@ -322,7 +322,12 @@ function updateMeta(title, desc, imgUrl) {
     canonical.setAttribute('rel', 'canonical');
     document.head.appendChild(canonical);
   }
-  canonical.setAttribute('href', SITE_URL + location.pathname + location.search);
+  // 記事ページ (?post=SLUG) のみ検索パラメータを canonical に含める。
+  // カテゴリ絞り込み (?cat=case, ?cat=trouble 等) は同じ HTML を返す重複コンテンツになるため
+  // canonical は /blog/ に正規化する（Google が Soft 404 判定するのを防ぐ）
+  const isPostView = /[?&]post=/.test(location.search);
+  const canonicalHref = SITE_URL + location.pathname + (isPostView ? location.search : '');
+  canonical.setAttribute('href', canonicalHref);
 }
 
 /* レンダリング */
