@@ -62,12 +62,13 @@
     "jobTitle": "代表取締役"
   },
   "employee": {"@id": "https://casaflor.search-mania.net/#author-yayoi"},
+  "telephone": "+81-980-43-1589",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "大中 4-20-28",
     "addressLocality": "名護市",
     "addressRegion": "沖縄県",
-    "postalCode": "905-0018",
+    "postalCode": "905-0017",
     "addressCountry": "JP"
   },
   "geo": {"@type": "GeoCoordinates", "latitude": 26.5974, "longitude": 127.9862},
@@ -526,7 +527,8 @@
           <dt>会社名</dt><dd itemprop="name" data-cms="settings.店名">株式会社カーサフロール</dd>
           <dt>英名</dt><dd>Casa Flor Co., Ltd.</dd>
           <dt>代表取締役</dt><dd>町田 弥生</dd>
-          <dt>所在地</dt><dd data-cms="settings.住所">〒905-0018 沖縄県名護市大中 4-20-28</dd>
+          <dt>所在地</dt><dd data-cms="settings.住所">〒905-0017 沖縄県名護市大中 4-20-28</dd>
+          <dt>電話番号</dt><dd><a href="tel:0980-43-1589" data-cms="settings.電話番号">0980-43-1589</a></dd>
           <dt>営業時間</dt><dd>平日・土 8:30〜17:30（土曜不定休）</dd>
           <dt>定休日</dt><dd>日曜・祝日</dd>
           <dt>対応エリア</dt><dd>沖縄県内全域（離島は要相談）</dd>
@@ -582,7 +584,9 @@
       <div class="footer__col">
         <div class="footer__col-title">CONTACT</div>
         <div class="footer__col-body">
-          <span data-cms="settings.住所">〒905-0018<br>沖縄県名護市大中 4-20-28</span>
+          <span data-cms="settings.住所">〒905-0017<br>沖縄県名護市大中 4-20-28</span>
+          <br>
+          <a href="tel:0980-43-1589" id="footerTel" class="footer__tel"><span aria-hidden="true">☎</span> <span data-cms="settings.電話番号">0980-43-1589</span></a>
         </div>
       </div>
       <div class="footer__col">
@@ -713,6 +717,12 @@ function applySettings(s) {
   // Facebook が未設定なら非表示
   if (!fbUrl || fbUrl === '#') {
     ['snsFacebook','snsFacebookFoot'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  }
+  // 電話番号: <a href="tel:..."> を Sheets 値で更新
+  const tel = (s.tel || s['電話番号'] || '').toString().trim();
+  if (tel) {
+    const telHref = 'tel:' + tel.replace(/[^0-9+]/g, '');
+    document.querySelectorAll('a[href^="tel:"]').forEach(a => { a.href = telHref; });
   }
   bindCmsSlots('settings', s);
 }

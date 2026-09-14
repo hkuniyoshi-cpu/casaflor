@@ -796,6 +796,8 @@ a.blog-card { color: inherit; text-decoration: none; display: block; }
 .footer__official-link { display: inline-block; margin-top: 6px; }
 .footer__col-body a { color: var(--gold-lt); text-decoration: none; }
 .footer__col-body a:hover { text-decoration: underline; }
+.footer__tel { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-family: var(--serif-en); font-size: 15px; letter-spacing: .04em; font-weight: 500; }
+.footer__tel span[aria-hidden] { color: var(--gold-lt); opacity: .8; }
 .footer__legal { text-align: center; padding: 24px 0; border-top: 1px solid rgba(201, 168, 76, .18); font-size: 12px; }
 .footer__legal a { color: rgba(253, 248, 243, .7); margin: 0 6px; }
 .footer__legal a:hover { color: var(--gold-lt); }
