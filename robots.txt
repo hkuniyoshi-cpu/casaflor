@@ -4,8 +4,6 @@
 # All standard crawlers
 User-agent: *
 Allow: /
-Disallow: /_gas-refs/
-Disallow: /gas/
 
 # ─── AI クローラー（AIO対策・明示許可） ───
 # 生成AIの学習および回答生成に本サイトのコンテンツを活用してもらうことで、

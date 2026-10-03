@@ -12,3 +12,6 @@ Thumbs.db
 .vscode/
 .idea/
 .wrangler/
+
+# デプロイ用の一時出力
+dist/

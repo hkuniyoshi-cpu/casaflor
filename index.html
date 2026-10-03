@@ -81,7 +81,7 @@
 }
 </script>
 
-<!-- 構造化データ: WebSite + SearchAction -->
+<!-- 構造化データ: WebSite -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -91,15 +91,7 @@
   "name": "Casa Flor ブログ",
   "description": "沖縄・名護の内外装仕上げのプロによる実践情報ブログ",
   "publisher": {"@id": "https://casaflor.search-mania.net/#organization"},
-  "inLanguage": "ja",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://casaflor.search-mania.net/blog/?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
-  }
+  "inLanguage": "ja"
 }
 </script>
 
@@ -615,13 +607,13 @@
       </div>
     </div>
     <div class="footer__legal">
-      <a href="./privacy-policy.html">プライバシーポリシー</a>
+      <a href="/privacy-policy">プライバシーポリシー</a>
       <span class="footer__legal-sep">·</span>
-      <a href="./terms.html">利用規約</a>
+      <a href="/terms">利用規約</a>
       <span class="footer__legal-sep">·</span>
       <a href="/blog/">記事一覧</a>
       <span class="footer__legal-sep">·</span>
-      <a href="./sitemap.xml">サイトマップ</a>
+      <a href="/sitemap.xml">サイトマップ</a>
     </div>
     <p class="partner-notice-inline">
       このサイトは<b>株式会社カーサフロール（沖縄・名護／代表 町田弥生）</b>の情報発信を目的に SearchMania Inc. が制作したブログサイトです。
@@ -766,6 +758,7 @@ function applyBlog(items) {
     if (m) postSlug = m[1];
     else if (rawUrl && !/^https?:/i.test(rawUrl)) postSlug = rawUrl.replace(/^\/+/, '').replace(/\/+$/, '').replace(/^blog\//, '');
     if (!postSlug) postSlug = b.date || '';
+    if (!/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(postSlug)) postSlug = '';
     // パス型URL（SSR対応）: /blog/{slug}/ 形式。functions/blog/[slug].js が初期HTMLを返す
     const href = postSlug ? `/blog/${postSlug}/` : null;
     const tagOpen  = href ? `<a href="${href}" class="e blog-card blog-card--journal">` : `<article class="e blog-card blog-card--journal">`;
