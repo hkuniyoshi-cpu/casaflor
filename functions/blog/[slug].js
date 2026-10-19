@@ -49,7 +49,12 @@ export async function onRequest(context) {
     return unavailable();
   }
 
-  const i = posts.findIndex(p => p.slug === slug);
+  let i = posts.findIndex(p => p.slug === slug);
+  if (i === -1 && /^\d{4}-\d{2}-\d{2}-\d{4}$/.test(slug)) {
+    // 投稿直後の記事はキャッシュにまだ無いことがあるので、取り直して探す
+    posts = await getPosts(context, { revalidate: true });
+    i = posts.findIndex(p => p.slug === slug);
+  }
   if (i === -1) {
     // 旧形式（日付だけのURL）はその日の記事へ寄せる
     const byDate = posts.find(p => p.date === slug);
